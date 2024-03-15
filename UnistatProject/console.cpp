@@ -21,6 +21,15 @@ void clear_console()
 	system("cls");
 }
 
+void show_console_cursor(bool show_flag)
+{
+	HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cursor_info;
+	GetConsoleCursorInfo(out, &cursor_info);
+	cursor_info.bVisible = show_flag;
+	SetConsoleCursorInfo(out, &cursor_info);
+}
+
 int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
 {
 	int max_index = points_num - 1;
@@ -34,6 +43,7 @@ int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
 	while (true)
 	{
 		y = start_y;
+
 		for (int i = 0; i < points_num; i++)
 		{
 			set_position(x, y);
@@ -50,6 +60,7 @@ int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
 		}
 
 		key = _getch();
+
 		if (key == 72)
 		{
 			counter--;
