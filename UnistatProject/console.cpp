@@ -30,6 +30,20 @@ void show_console_cursor(bool show_flag)
 	SetConsoleCursorInfo(out, &cursor_info);
 }
 
+int get_console_columns()
+{
+	CONSOLE_SCREEN_BUFFER_INFO screen_info;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &screen_info);
+	return screen_info.srWindow.Right - screen_info.srWindow.Left + 1;
+}
+
+int get_console_rows()
+{
+	CONSOLE_SCREEN_BUFFER_INFO screen_info;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &screen_info);
+	return screen_info.srWindow.Bottom - screen_info.srWindow.Top + 1;
+}
+
 int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
 {
 	int max_index = points_num - 1;
@@ -68,6 +82,14 @@ int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
 		if (key == 80)
 		{
 			counter++;
+		}
+		if (key >= 49 && key <= 57)
+		{
+			int digit = key - '0';
+			if (digit <= points_num)
+			{
+				counter = digit - 1;
+			}
 		}
 		if (key == '\r')
 		{
