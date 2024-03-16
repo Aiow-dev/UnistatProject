@@ -128,12 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="console.cpp" />
+    <ClCompile Include="start.cpp" />
     <ClCompile Include="stat.cpp" />
     <ClCompile Include="student.cpp" />
     <ClCompile Include="UnistatProject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h" />
+    <ClInclude Include="start.h" />
     <ClInclude Include="stat.h" />
     <ClInclude Include="student.h" />
   </ItemGroup>

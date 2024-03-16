@@ -4,6 +4,7 @@
 #include <iomanip>
 #include "student.h"
 #include "console.h"
+#include "start.h"
 using namespace std;
 
 void show_stat_menu()
@@ -16,6 +17,13 @@ void show_stat_menu()
 		"3. Назад"
 	};
 	int selected_point = menu(3, menu_points, 0, 4);
+
+	clear_console();
+
+	if (selected_point == 2)
+	{
+		show_start_menu();
+	}
 }
 
 void show_stat_table()
