@@ -10,7 +10,7 @@ void set_color(int color)
 
 void set_position(int x, int y)
 {
-	COORD c;
+	COORD c{};
 	c.X = x;
 	c.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
