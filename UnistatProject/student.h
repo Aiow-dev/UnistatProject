@@ -1,12 +1,13 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "person.h"
 using namespace std;
 
 struct student
 {
-	person person;
+	string surname;
+	string first_name;
+	string patronymic;
 	int grades[4]{};
 };
 

@@ -3,13 +3,11 @@
 #include <fstream>
 #include <string>
 #include "student.h"
-#include "person.h"
 using namespace std;
 
 student to_stud_stat_node(string stud_stat_data, string sep = ";")
 {
 	student node;
-	person person;
 
 	for (int i = 0; i < 7; i++)
 	{
@@ -26,11 +24,11 @@ student to_stud_stat_node(string stud_stat_data, string sep = ";")
 
 		switch (i)
 		{
-		case 0: person.surname = node_part;
+		case 0: node.surname = node_part;
 			break;
-		case 1: person.first_name = node_part;
+		case 1: node.first_name = node_part;
 			break;
-		case 2: person.patronymic = node_part;
+		case 2: node.patronymic = node_part;
 			break;
 		}
 
@@ -40,7 +38,6 @@ student to_stud_stat_node(string stud_stat_data, string sep = ";")
 		}
 	}
 
-	node.person = person;
 	return node;
 }
 

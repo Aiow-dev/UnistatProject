@@ -4,6 +4,7 @@
 #include <string>
 #include "console.h"
 #include "student.h"
+#include "stat.h"
 using namespace std;
 
 int main()
@@ -37,13 +38,9 @@ int main()
 
 	try
 	{
-		vector<student> node_list = read_student_stat("students_list.txt");
-		for (student node : node_list)
+		if (selected_point == 0)
 		{
-			for (int grade : node.grades) {
-				cout << grade << " ";
-			}
-			cout << endl;
+			show_stat_table();
 		}
 	}
 	catch (exception e)
