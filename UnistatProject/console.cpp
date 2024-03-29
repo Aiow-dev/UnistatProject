@@ -1,11 +1,12 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <iomanip>
 using namespace std;
 
-void set_color(int color)
+void set_console_color(int foreground_color, int background_color)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ((background_color << 4) | foreground_color));
 }
 
 void set_position(int x, int y)
@@ -44,11 +45,9 @@ int get_console_rows()
 	return screen_info.srWindow.Bottom - screen_info.srWindow.Top + 1;
 }
 
-int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
+int menu(int points_num, string* points, int start_x, int start_y, int point_width)
 {
 	int max_index = points_num - 1;
-	int default_color = 7;
-	int active_color = 12;
 	int x = start_x;
 	int y = start_y;
 	int counter = 0;
@@ -63,13 +62,13 @@ int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
 			set_position(x, y);
 			if (counter == i)
 			{
-				set_color(active_color);
+				set_console_color(0, 3);
 			}
 			else
 			{
-				set_color(default_color);
+				set_console_color(7, 0);
 			}
-			cout << points[i];
+			cout << left << setw(point_width) << points[i];
 			y++;
 		}
 
@@ -93,7 +92,7 @@ int menu(int points_num, string* points, int start_x = 1, int start_y = 3)
 		}
 		if (key == '\r')
 		{
-			set_color(default_color);
+			set_console_color(7, 0);
 			return counter;
 		}
 

@@ -3,8 +3,9 @@
 #include <vector>
 #include <iomanip>
 #include "student.h"
-#include "console.h"
 #include "start.h"
+#include <Windows.h>
+#include "console.h"
 using namespace std;
 
 void show_stat_menu()
@@ -12,12 +13,11 @@ void show_stat_menu()
 	set_position(0, 3);
 	cout << "Меню:" << endl;
 	string menu_points[] = {
-		"1. Сортировать в порядке убывания среднего балла",
-		"2. Сортировать в порядке возрастания среднего балла",
-		"3. Назад"
+		"[1] Сортировать в порядке убывания среднего балла",
+		"[2] Сортировать в порядке возрастания среднего балла",
+		"[3] Назад"
 	};
-	int selected_point = menu(3, menu_points, 0, 4);
-
+	int selected_point = menu(3, menu_points, 0, 4, 52);
 	clear_console();
 
 	if (selected_point == 2)
@@ -69,9 +69,9 @@ void show_stat_table()
 
 	cout << left << setw(surname_column) << "Фамилия" << setw(first_name_column) << "Имя"
 		<< setw(patronymic_column) << "Отчество" << setw(20) << "Отметки" << setw(12);
-	set_color(12);
+	set_console_color(3, 0);
 	cout << "Средний балл" << endl;
-	set_color(7);
+	set_console_color(7, 0);
 	cout << setfill('-') << setw(surname_column) << "" << setw(first_name_column) << ""
 		<< setw(patronymic_column) << "" << setw(32) << "" << endl;
 	cout << setfill(' ');
@@ -90,9 +90,9 @@ void show_stat_table()
 			<< setw(5) << students[i].grades[0] << setw(5) << students[i].grades[1]
 			<< setw(5) << students[i].grades[2] << setw(5) << students[i].grades[3]
 			<< setw(5);
-		set_color(12);
+		set_console_color(3, 0);
 		cout << avg_grade << endl;
-		set_color(7);
+		set_console_color(7, 0);
 	}
 
 	cout << setfill('-') << setw(surname_column) << "" << setw(first_name_column) << ""
@@ -102,9 +102,9 @@ void show_stat_table()
 	double avg_univ = sum_avg_grade / students_num;
 	int table_width = surname_column + first_name_column + patronymic_column - 8;
 	cout << "Средний балл по университету" << setw(table_width) << "";
-	set_color(12);
+	set_console_color(3, 0);
 	cout << avg_univ << endl;
-	set_color(7);
+	set_console_color(7, 0);
 
 	show_stat_menu();
 }

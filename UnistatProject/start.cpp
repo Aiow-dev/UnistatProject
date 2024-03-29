@@ -15,17 +15,16 @@ void show_start_menu()
 	set_position(columns_pos, rows_pos - 6);
 	cout << "Меню" << endl;
 	set_position(columns_pos - 20, rows_pos - 5);
-	cout << "-------------------------------------------" << endl;
+	cout << "--------------------------------------------" << endl;
 
 	string main_points[] = {
-		"1. Ведомость всех абитуриентов",
-		"2. Список абитуриентов (балл выше среднего)",
-		"3. Создание записи",
-		"4. Поиск записи",
-		"5. Выход"
+		"[1] Ведомость всех абитуриентов",
+		"[2] Список абитуриентов (балл выше среднего)",
+		"[3] Создание записи",
+		"[4] Поиск записи",
+		"[5] Выход"
 	};
-	int selected_point = menu(5, main_points, columns_pos - 20, rows_pos - 4);
-
+	int selected_point = menu(5, main_points, columns_pos - 20, rows_pos - 4, 44);
 	clear_console();
 
 	try
