@@ -129,7 +129,9 @@
   <ItemGroup>
     <ClCompile Include="console.cpp" />
     <ClCompile Include="load.cpp" />
+    <ClCompile Include="tutorial_page.cpp" />
     <ClCompile Include="start.cpp" />
+    <ClCompile Include="start_page.cpp" />
     <ClCompile Include="stat.cpp" />
     <ClCompile Include="student.cpp" />
     <ClCompile Include="UnistatProject.cpp" />
@@ -138,8 +140,10 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="start.h" />
+    <ClInclude Include="start_page.h" />
     <ClInclude Include="stat.h" />
     <ClInclude Include="student.h" />
+    <ClInclude Include="tutorial_page.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

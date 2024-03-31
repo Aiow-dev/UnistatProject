@@ -22,7 +22,7 @@ void show_stat_menu()
 
 	if (selected_point == 2)
 	{
-		show_start_menu();
+		return;
 	}
 }
 

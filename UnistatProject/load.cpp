@@ -25,7 +25,7 @@ void show_loading()
 		cout << "->";
 		set_position(count_x, y);
 		cout << i * 2 << " %";
-		Sleep(40);
+		Sleep(20);
 	}
 
 	set_position(count_x, y);
