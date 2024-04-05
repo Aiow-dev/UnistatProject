@@ -1,3 +1,3 @@
 #pragma once
 
-void show_start_page();
+int show_start_page();

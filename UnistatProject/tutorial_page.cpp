@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <conio.h>
 #include "console.h"
-#include "start.h"
 #include "settings.h"
 #include "colors.h"
 using namespace std;

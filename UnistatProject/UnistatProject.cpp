@@ -3,9 +3,10 @@
 #include "console.h"
 #include "settings.h"
 #include "load.h"
-#include "start.h"
+#include "start_page.h"
 #include "tutorial_page.h"
 #include "colors.h"
+#include "stat.h"
 using namespace std;
 using namespace setting;
 
@@ -40,7 +41,14 @@ int main()
 		show_console_cursor(false);
 	}
 
-	show_start_menu();
+	int start_page_point = show_start_page();
+	clear_console();
+	switch (start_page_point)
+	{
+	case 0: show_stat_table();
+		break;
+	case 2: return 0;
+	}
 
 	return 0;
 }

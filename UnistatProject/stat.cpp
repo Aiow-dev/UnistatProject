@@ -3,7 +3,6 @@
 #include <vector>
 #include <iomanip>
 #include "student.h"
-#include "start.h"
 #include "console.h"
 #include "colors.h"
 using namespace std;

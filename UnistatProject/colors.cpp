@@ -4,7 +4,6 @@
 using namespace std;
 using namespace setting;
 
-
 namespace cr
 {
 	int black = 0;

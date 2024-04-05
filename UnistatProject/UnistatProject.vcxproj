@@ -133,7 +133,6 @@
     <ClCompile Include="load.cpp" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="tutorial_page.cpp" />
-    <ClCompile Include="start.cpp" />
     <ClCompile Include="start_page.cpp" />
     <ClCompile Include="stat.cpp" />
     <ClCompile Include="student.cpp" />
@@ -144,7 +143,6 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="load.h" />
-    <ClInclude Include="start.h" />
     <ClInclude Include="start_page.h" />
     <ClInclude Include="stat.h" />
     <ClInclude Include="student.h" />
