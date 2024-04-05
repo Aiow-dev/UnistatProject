@@ -1,0 +1,5 @@
+showLoading : false
+showTutorial : false
+fgActiveTextColor: 3
+fgActiveMarkerColor: 0
+bgActiveMarkerColor: 3

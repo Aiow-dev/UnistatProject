@@ -1,9 +1,13 @@
 #include <iostream>
+#include <map>
 #include <Windows.h>
 #include <conio.h>
 #include "console.h"
 #include "start.h"
+#include "settings.h"
+#include "colors.h"
 using namespace std;
+using namespace setting;
 
 void show_tutorial_page()
 {
@@ -13,9 +17,9 @@ void show_tutorial_page()
 	set_position(field_start_x, 5);
 	cout << "+--------------------------------------------------------------------+";
 	set_position(42, 7);
-	set_console_color(3, 0);
+	set_console_color(cr::fg_active_text, cr::black);
 	cout << "Добро пожаловать в приложение Unistat!";
-	set_console_color(7, 0);
+	set_console_color(cr::light_gray, cr::black);
 
 	int field_y = 6;
 	for (int i = 0; i < 18; i++)
@@ -75,14 +79,20 @@ void show_tutorial_page()
 
 	current_y += 2;
 	set_position(46, current_y);
-	set_console_color(0, 3);
+	set_console_color(cr::fg_active_marker, cr::bg_active_marker);
 	cout << "[Enter] Больше не показывать";
-	set_console_color(7, 0);
+	set_console_color(cr::light_gray, cr::black);
 
-	char key = _getch();
-	if (key == '\r')
+	while (true)
 	{
-		clear_console();
-		return;
+		char key = _getch();
+
+		if (key == '\r')
+		{
+			set_parameter("showTutorial", "false");
+			clear_console();
+
+			return;
+		}
 	}
 }

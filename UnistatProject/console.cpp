@@ -2,11 +2,12 @@
 #include <windows.h>
 #include <conio.h>
 #include <iomanip>
+#include "colors.h"
 using namespace std;
 
-void set_console_color(int foreground_color, int background_color)
+void set_console_color(int fg_color, int bg_color)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ((background_color << 4) | foreground_color));
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ((bg_color << 4) | fg_color));
 }
 
 void set_position(int x, int y)
@@ -62,7 +63,7 @@ int menu(int points_num, string* points, int start_x, int start_y, int point_wid
 			set_position(x, y);
 			if (counter == i)
 			{
-				set_console_color(0, 3);
+				set_console_color(cr::fg_active_marker, cr::bg_active_marker);
 			}
 			else
 			{

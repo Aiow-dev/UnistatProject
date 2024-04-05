@@ -53,8 +53,15 @@ vector<student> read_student_stat(string filepath)
 
 		while (getline(student_stat, line))
 		{
-			node_list.push_back(to_stud_stat_node(line));
-			line_index++;
+			try
+			{
+				node_list.push_back(to_stud_stat_node(line));
+				line_index++;
+			}
+			catch (invalid_argument e)
+			{
+				throw e;
+			}
 		}
 
 		student_stat.close();

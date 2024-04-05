@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include "console.h"
+#include "colors.h"
 using namespace std;
 
 void show_loading()
@@ -12,7 +13,7 @@ void show_loading()
 	int start_x = 35;
 	int y = 15;
 	int count_x = 88;
-	set_console_color(3, 0);
+	set_console_color(cr::fg_active_text, cr::black);
 	set_position(start_x, y);
 	cout << "[";
 	set_position(86, y);
@@ -30,5 +31,5 @@ void show_loading()
 
 	set_position(count_x, y);
 	cout << "100 %";
-	set_console_color(7, 0);
+	set_console_color(cr::light_gray, cr::black);
 }

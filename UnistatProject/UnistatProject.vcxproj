@@ -127,8 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="colors.cpp" />
     <ClCompile Include="console.cpp" />
+    <ClCompile Include="settings.cpp" />
     <ClCompile Include="load.cpp" />
+    <ClCompile Include="text.cpp" />
     <ClCompile Include="tutorial_page.cpp" />
     <ClCompile Include="start.cpp" />
     <ClCompile Include="start_page.cpp" />
@@ -137,13 +140,20 @@
     <ClCompile Include="UnistatProject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="colors.h" />
     <ClInclude Include="console.h" />
+    <ClInclude Include="settings.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="start.h" />
     <ClInclude Include="start_page.h" />
     <ClInclude Include="stat.h" />
     <ClInclude Include="student.h" />
+    <ClInclude Include="text.h" />
     <ClInclude Include="tutorial_page.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="settings.txt" />
+    <Text Include="students_list.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
