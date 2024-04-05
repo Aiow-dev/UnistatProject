@@ -3,7 +3,6 @@
 #include <iomanip>
 #include "console.h"
 #include "colors.h"
-#include "stat.h"
 using namespace std;
 
 int show_start_page()

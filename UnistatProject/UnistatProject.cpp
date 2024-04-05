@@ -6,7 +6,7 @@
 #include "start_page.h"
 #include "tutorial_page.h"
 #include "colors.h"
-#include "stat.h"
+#include "stat_page.h"
 using namespace std;
 using namespace setting;
 
@@ -45,7 +45,7 @@ int main()
 	clear_console();
 	switch (start_page_point)
 	{
-	case 0: show_stat_table();
+	case 0: show_stat_page();
 		break;
 	case 2: return 0;
 	}

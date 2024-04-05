@@ -8,6 +8,7 @@ struct student
 	string surname;
 	string first_name;
 	string patronymic;
+	double avg_grade;
 	int grades[4]{};
 };
 
