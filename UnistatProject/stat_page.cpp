@@ -2,12 +2,28 @@
 #include <vector>
 #include <iomanip>
 #include <conio.h>
+#include <string>
 #include "console.h"
 #include "colors.h"
-#include "student.h"
+#include "stat.h"
 using namespace std;
 
-void show_default_node(student node, int x, int y, int snm_width, int frt_width, int ptc_width)
+void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
+{
+	set_position(x, y);
+	set_console_color(cr::black, cr::bg_active_marker);
+
+	cout << left << setw(snm_width) << "Фамилия" << setw(frt_width) << "Имя"
+		<< setw(ptc_width) << "Отчество" << setw(20) << "Отметки" << setw(12);
+	cout << "Средний балл" << endl;
+	set_console_color(cr::light_gray, cr::black);
+	set_position(x, y + 1);
+	cout << setfill('-') << setw(snm_width) << "" << setw(frt_width) << ""
+		<< setw(ptc_width) << "" << setw(32) << "" << endl;
+	cout << setfill(' ');
+}
+
+void show_default_node(stat_node node, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
 	set_position(x, y);
 	cout << left << setw(snm_width) << node.surname
@@ -17,11 +33,13 @@ void show_default_node(student node, int x, int y, int snm_width, int frt_width,
 		<< setw(5) << node.grades[2] << setw(5) << node.grades[3]
 		<< setw(12);
 	set_console_color(cr::fg_active_text, cr::black);
-	cout << node.avg_grade << endl;
+
+	double node_grades_avg = get_node_grades_avg(node);
+	cout << node_grades_avg << endl;
 	set_console_color(cr::light_gray, cr::black);
 }
 
-void show_active_node(student node, int x, int y, int snm_width, int frt_width, int ptc_width)
+void show_active_node(stat_node node, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
 	set_position(x, y);
 	set_console_color(cr::fg_active_marker, cr::bg_active_marker);
@@ -31,15 +49,162 @@ void show_active_node(student node, int x, int y, int snm_width, int frt_width, 
 		<< setw(5) << node.grades[0] << setw(5) << node.grades[1]
 		<< setw(5) << node.grades[2] << setw(5) << node.grades[3]
 		<< setw(12);
-	cout << node.avg_grade << endl;
+
+	double node_grades_avg = get_node_grades_avg(node);
+	cout << node_grades_avg << endl;
 	set_console_color(cr::light_gray, cr::black);
+}
+
+void show_table_footer(int x, int y, double stat_avg, int snm_width, int frt_width, int ptc_width)
+{
+	set_position(x, y);
+	cout << setfill('-') << setw(snm_width) << "" << setw(frt_width) << ""
+		<< setw(ptc_width) << "" << setw(32) << "" << endl;
+	cout << setfill(' ');
+
+	int table_width = snm_width + frt_width + ptc_width - 8;
+	set_position(x, y + 1);
+	cout << "Средний балл по университету" << setw(table_width) << "";
+	set_console_color(cr::fg_active_text, cr::black);
+	cout << stat_avg << endl;
+	set_console_color(cr::light_gray, cr::black);
+}
+
+void show_table_nodes(vector<stat_node> nodes, int x, int y, int snm_width, int frt_width, int ptc_width)
+{
+	if (nodes.empty())
+	{
+		return;
+	}
+
+	int page_size = 10;
+	int size = nodes.size();
+
+	show_active_node(nodes[0], x, y, snm_width, frt_width, ptc_width);
+	
+	for (int i = 1; i < page_size; i++)
+	{
+		y++;
+
+		if (i < size)
+		{
+			show_default_node(nodes[i], x, y, snm_width, frt_width, ptc_width);
+		}
+		else
+		{
+			set_position(x, y);
+			cout << left << setw(78) << " " << endl;
+		}
+	}
+}
+
+void run_table_actions(vector<stat_node> nodes, int x, int y, int snm_width, int frt_width, int ptc_width)
+{
+	int page_size = 10;
+	int start_page_index = 0;
+	int end_page_index = 9;
+	int current_page_index = 0;
+
+	int size = nodes.size();
+	if (size < page_size)
+	{
+		end_page_index = size - 1;
+	}
+
+	int page_num = size / page_size;
+	int offset = size % page_size;
+
+	if (offset != 0)
+	{
+		page_num++;
+	}
+
+	int current_node_index = 0;
+
+	while (true)
+	{
+		int key_input = _getch();
+
+		if (key_input == 72)
+		{
+			int page_node_index = current_node_index % page_size;
+
+			if (page_node_index == 0)
+			{
+				continue;
+			}
+
+			show_default_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+			current_node_index--;
+			page_node_index--;
+			show_active_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+		}
+
+		if (key_input == 80)
+		{
+			if (current_node_index == size - 1)
+			{
+				continue;
+			}
+
+			int page_node_index = current_node_index % page_size;
+
+			if (page_node_index == page_size - 1)
+			{
+				continue;
+			}
+
+			show_default_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+			current_node_index++;
+			page_node_index++;
+			show_active_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+		}
+
+		if (key_input == 75)
+		{
+			if (start_page_index == 0)
+			{
+				continue;
+			}
+
+			start_page_index -= page_size;
+			end_page_index -= page_size;
+			current_node_index = start_page_index;
+			current_page_index--;
+
+			vector<stat_node> page_nodes = slice_nodes(nodes, start_page_index, end_page_index);
+			show_table_nodes(page_nodes, x, y, snm_width, frt_width, ptc_width);
+
+			set_position(20, 23);
+			cout << "Страница " << current_page_index + 1 << " из " << page_num;
+		}
+
+		if (key_input == 77)
+		{
+			if (end_page_index >= size - 1)
+			{
+				continue;
+			}
+
+			start_page_index += page_size;
+			end_page_index += page_size;
+			current_node_index = start_page_index;
+			current_page_index++;
+
+			vector<stat_node> page_nodes = slice_nodes(nodes, start_page_index, end_page_index);
+			show_table_nodes(page_nodes, x, y, snm_width, frt_width, ptc_width);
+
+			set_position(20, 23);
+			cout << "Страница " << current_page_index + 1 << " из " << page_num;
+		}
+	}
 }
 
 void show_table()
 {
 	try
 	{
-		vector<student> students = read_student_stat("students_list.txt");
+		vector<stat_node> students = read_student_stat("students_list.txt");
 
 		if (students.empty())
 		{
@@ -47,106 +212,56 @@ void show_table()
 			return;
 		}
 
-		int max_surname_len = 0;
-		int max_first_name_len = 0;
-		int max_patronymic_len = 0;
+		int size = students.size();
+		int page_size = 10;
+		int page_num = size / page_size;
+		int offset = size % page_size;
 
-		for (student student : students)
+		if (offset != 0)
+		{
+			page_num++;
+		}
+
+		int snm_width = 0;
+		int frt_width = 0;
+		int ptc_width = 0;
+
+		for (stat_node student : students)
 		{
 			int st_surname_len = student.surname.length();
 			int st_first_name_len = student.first_name.length();
 			int st_patronymic_len = student.patronymic.length();
 
-			if (max_surname_len < st_surname_len)
+			if (snm_width < st_surname_len)
 			{
-				max_surname_len = st_surname_len;
+				snm_width = st_surname_len;
 			}
-			if (max_first_name_len < st_first_name_len)
+			if (frt_width < st_first_name_len)
 			{
-				max_first_name_len = st_first_name_len;
+				frt_width = st_first_name_len;
 			}
-			if (max_patronymic_len < st_patronymic_len)
+			if (ptc_width < st_patronymic_len)
 			{
-				max_patronymic_len = st_patronymic_len;
+				ptc_width = st_patronymic_len;
 			}
 		}
 
-		int snm_width = max_surname_len + 5;
-		int frt_width = max_first_name_len + 5;
-		int ptc_width = max_patronymic_len + 5;
+		snm_width += 5;
+		frt_width += 5;
+		ptc_width += 5;
 
-		set_position(20, 9);
+		show_table_title(20, 8, snm_width, frt_width, ptc_width);
+		vector<stat_node> part_nodes = slice_nodes(students, 0, 9);
+		show_table_nodes(part_nodes, 20, 10, snm_width, frt_width, ptc_width);
 
-		cout << left << setw(snm_width) << "Фамилия" << setw(frt_width) << "Имя"
-			<< setw(ptc_width) << "Отчество" << setw(20) << "Отметки" << setw(12);
-		set_console_color(cr::fg_active_text, cr::black);
-		cout << "Средний балл" << endl;
-		set_console_color(cr::light_gray, cr::black);
-		set_position(20, 10);
-		cout << setfill('-') << setw(snm_width) << "" << setw(frt_width) << ""
-			<< setw(ptc_width) << "" << setw(32) << "" << endl;
-		cout << setfill(' ');
+		double stat_avg = get_nodes_grades_avg(students);
 
-		double sum_avg_grade = 0;
-		int students_num = students.size();
-		int line_y = 11;
+		show_table_footer(20, 20, stat_avg, snm_width, frt_width, ptc_width);
+		set_position(20, 23);
+		cout << "Страница 1" << " из " << page_num;
+		show_active_node(students[0], 20, 10, snm_width, frt_width, ptc_width);
 
-		for (int i = 0; i < students_num; i++)
-		{
-			double avg_grade = (students[i].grades[0] + students[i].grades[1] + students[i].grades[2] + students[i].grades[3]) / 4.0;
-			students[i].avg_grade = avg_grade;
-			sum_avg_grade += avg_grade;
-
-			show_default_node(students[i], 20, line_y, snm_width, frt_width, ptc_width);
-
-			line_y++;
-		}
-
-		set_position(20, line_y);
-		cout << setfill('-') << setw(snm_width) << "" << setw(frt_width) << ""
-			<< setw(ptc_width) << "" << setw(32) << "" << endl;
-		cout << setfill(' ');
-
-		double avg_univ = sum_avg_grade / students_num;
-		int table_width = snm_width + frt_width + ptc_width - 8;
-		set_position(20, line_y + 1);
-		cout << "Средний балл по университету" << setw(table_width) << "";
-		set_console_color(cr::fg_active_text, cr::black);
-		cout << avg_univ << endl;
-		set_console_color(cr::light_gray, cr::black);
-
-		int point_y = 11;
-		int max_width = 87;
-		int table_pointer = 0;
-
-		show_active_node(students[0], 20, point_y, snm_width, frt_width, ptc_width);
-
-		while (true)
-		{
-			int key = _getch();
-
-			show_default_node(students[table_pointer], 20, point_y + table_pointer, snm_width, frt_width, ptc_width);
-
-			if (key == 72)
-			{
-				table_pointer--;
-			}
-			if (key == 80)
-			{
-				table_pointer++;
-			}
-
-			if (table_pointer < 0)
-			{
-				table_pointer = 9;
-			}
-			if (table_pointer > 9)
-			{
-				table_pointer = 0;
-			}
-
-			show_active_node(students[table_pointer], 20, point_y + table_pointer, snm_width, frt_width, ptc_width);
-		}
+		run_table_actions(students, 20, 10, snm_width, frt_width, ptc_width);
 	}
 	catch (invalid_argument e)
 	{
@@ -179,6 +294,7 @@ int show_stat_page()
 	cout << "+-----------------------------------------------------------------------------------------------+";
 
 	int field_y = 7;
+
 	for (int i = 0; i < 20; i++)
 	{
 		set_position(12, field_y);
@@ -187,10 +303,11 @@ int show_stat_page()
 		cout << "|";
 		field_y++;
 	}
-	set_position(20, field_y - 3);
+
+	set_position(20, field_y - 2);
 	set_console_color(cr::black, cr::light_gray);
 	cout << "<--";
-	set_position(96, field_y - 3);
+	set_position(95, field_y - 2);
 	cout << "-->";
 	set_console_color(cr::light_gray, cr::black);
 	set_position(12, field_y);

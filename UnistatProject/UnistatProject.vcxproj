@@ -135,7 +135,7 @@
     <ClCompile Include="text.cpp" />
     <ClCompile Include="tutorial_page.cpp" />
     <ClCompile Include="start_page.cpp" />
-    <ClCompile Include="student.cpp" />
+    <ClCompile Include="stat.cpp" />
     <ClCompile Include="UnistatProject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +145,7 @@
     <ClInclude Include="load.h" />
     <ClInclude Include="start_page.h" />
     <ClInclude Include="stat_page.h" />
-    <ClInclude Include="student.h" />
+    <ClInclude Include="stat.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="tutorial_page.h" />
   </ItemGroup>
