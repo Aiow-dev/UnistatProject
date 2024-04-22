@@ -7,6 +7,8 @@
 #include "tutorial_page.h"
 #include "colors.h"
 #include "stat_page.h"
+#include "stat_model.h"
+#include "file_model.h"
 using namespace std;
 using namespace setting;
 
@@ -17,6 +19,7 @@ int main()
 	try
 	{
 		read_settings();
+		fm::set_fmodel("students_list.txt");
 	}
 	catch (exception e)
 	{

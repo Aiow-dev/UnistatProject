@@ -5,9 +5,9 @@
 #include "stat.h"
 using namespace std;
 
-stat_node to_stat_node(string data, string sep)
+stat_record to_stat_record(string data, string sep)
 {
-	stat_node node;
+	stat_record record;
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -24,32 +24,32 @@ stat_node to_stat_node(string data, string sep)
 
 		switch (i)
 		{
-		case 0: node.id = stoi(node_part);
+		case 0: record.id = node_part;
 			break;
-		case 1: node.surname = node_part;
+		case 1: record.surname = node_part;
 			break;
-		case 2: node.first_name = node_part;
+		case 2: record.first_name = node_part;
 			break;
-		case 3: node.patronymic = node_part;
+		case 3: record.patronymic = node_part;
 			break;
 		}
 
 		if (i > 3)
 		{
-			node.grades[i - 4] = stoi(node_part);
+			record.grades[i - 4] = stoi(node_part);
 		}
 	}
 
-	return node;
+	return record;
 }
 
-vector<stat_node> read_student_stat(string filepath)
+vector<stat_record> read_student_stat(fm::file_model fmodel)
 {
-	ifstream student_stat(filepath);
+	ifstream student_stat(fm::get_fmodel_path(fmodel));
 
 	if (student_stat.is_open())
 	{
-		vector<stat_node> node_list{};
+		vector<stat_record> stat_records{};
 		string line;
 		int line_index = 0;
 
@@ -57,7 +57,7 @@ vector<stat_node> read_student_stat(string filepath)
 		{
 			try
 			{
-				node_list.push_back(to_stat_node(line));
+				stat_records.push_back(to_stat_record(line));
 				line_index++;
 			}
 			catch (invalid_argument e)
@@ -67,41 +67,59 @@ vector<stat_node> read_student_stat(string filepath)
 		}
 
 		student_stat.close();
-		return node_list;
+		return stat_records;
 	}
 
 	student_stat.close();
 	throw exception("Ошибка. Файл ведомости абитуриентов не найден!");
 }
 
-double get_node_grades_avg(stat_node node)
+void delete_record_id(vector<stat_record> records, string id)
 {
-	return (node.grades[0] + node.grades[1] + node.grades[2] + node.grades[3]) / 4.0;
+	int find_index = -1;
+
+	for (int i = 0; i < records.size(); i++)
+	{
+		if (records[i].id == id)
+		{
+			find_index = i;
+		}
+	}
+
+	if (find_index != -1)
+	{
+		records.erase(records.begin() + find_index);
+	}
 }
 
-double get_nodes_grades_avg(vector<stat_node> nodes)
+double get_record_grades_avg(stat_record record)
+{
+	return (record.grades[0] + record.grades[1] + record.grades[2] + record.grades[3]) / 4.0;
+}
+
+double get_records_grades_avg(vector<stat_record> records)
 {
 	double sum = 0;
-	for (stat_node node : nodes)
+	for (stat_record record : records)
 	{
-		double current_avg = get_node_grades_avg(node);
+		double current_avg = get_record_grades_avg(record);
 		sum += current_avg;
 	}
 
-	return sum / nodes.size();
+	return sum / records.size();
 }
 
-vector<stat_node> slice_nodes(vector<stat_node> nodes, int from, int to)
+vector<stat_record> slice_records(vector<stat_record> records, int from, int to)
 {
-	int size = nodes.size();
+	int size = records.size();
 	if (from > size - 1)
 	{
-		return vector<stat_node>();
+		return vector<stat_record>();
 	}
 	if (to > size - 1)
 	{
-		return vector<stat_node>(nodes.begin() + from, nodes.end());
+		return vector<stat_record>(records.begin() + from, records.end());
 	}
 
-	return vector<stat_node>(nodes.begin() + from, nodes.begin() + to + 1);
+	return vector<stat_record>(records.begin() + from, records.begin() + to + 1);
 }

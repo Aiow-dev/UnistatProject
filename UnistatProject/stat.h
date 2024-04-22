@@ -1,19 +1,12 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include "stat_model.h"
 using namespace std;
 
-struct stat_node
-{
-	int id;
-	string surname;
-	string first_name;
-	string patronymic;
-	int grades[4]{};
-};
-
-stat_node to_stat_node(string data, string sep = ";");
-vector<stat_node> read_student_stat(string filepath);
-double get_node_grades_avg(stat_node node);
-double get_nodes_grades_avg(vector<stat_node> nodes);
-vector<stat_node> slice_nodes(vector<stat_node> nodes, int from, int to);
+stat_record to_stat_record(string data, string sep = ";");
+vector<stat_record> read_student_stat(fm::file_model fmodel);
+void delete_record_id(vector<stat_record> records, string id);
+double get_record_grades_avg(stat_record record);
+double get_records_grades_avg(vector<stat_record> records);
+vector<stat_record> slice_records(vector<stat_record> records, int from, int to);

@@ -6,6 +6,7 @@
 #include "console.h"
 #include "colors.h"
 #include "stat.h"
+#include "stat_record_page.h"
 using namespace std;
 
 void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
@@ -23,34 +24,34 @@ void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
 	cout << setfill(' ');
 }
 
-void show_default_node(stat_node node, int x, int y, int snm_width, int frt_width, int ptc_width)
+void show_default_node(stat_record record, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
 	set_position(x, y);
-	cout << left << setw(snm_width) << node.surname
-		<< setw(frt_width) << node.first_name
-		<< setw(ptc_width) << node.patronymic
-		<< setw(5) << node.grades[0] << setw(5) << node.grades[1]
-		<< setw(5) << node.grades[2] << setw(5) << node.grades[3]
+	cout << left << setw(snm_width) << record.surname
+		<< setw(frt_width) << record.first_name
+		<< setw(ptc_width) << record.patronymic
+		<< setw(5) << record.grades[0] << setw(5) << record.grades[1]
+		<< setw(5) << record.grades[2] << setw(5) << record.grades[3]
 		<< setw(12);
 	set_console_color(cr::fg_active_text, cr::black);
 
-	double node_grades_avg = get_node_grades_avg(node);
+	double node_grades_avg = get_record_grades_avg(record);
 	cout << node_grades_avg << endl;
 	set_console_color(cr::light_gray, cr::black);
 }
 
-void show_active_node(stat_node node, int x, int y, int snm_width, int frt_width, int ptc_width)
+void show_active_node(stat_record record, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
 	set_position(x, y);
 	set_console_color(cr::fg_active_marker, cr::bg_active_marker);
-	cout << left << setw(snm_width) << node.surname
-		<< setw(frt_width) << node.first_name
-		<< setw(ptc_width) << node.patronymic
-		<< setw(5) << node.grades[0] << setw(5) << node.grades[1]
-		<< setw(5) << node.grades[2] << setw(5) << node.grades[3]
+	cout << left << setw(snm_width) << record.surname
+		<< setw(frt_width) << record.first_name
+		<< setw(ptc_width) << record.patronymic
+		<< setw(5) << record.grades[0] << setw(5) << record.grades[1]
+		<< setw(5) << record.grades[2] << setw(5) << record.grades[3]
 		<< setw(12);
 
-	double node_grades_avg = get_node_grades_avg(node);
+	double node_grades_avg = get_record_grades_avg(record);
 	cout << node_grades_avg << endl;
 	set_console_color(cr::light_gray, cr::black);
 }
@@ -70,17 +71,17 @@ void show_table_footer(int x, int y, double stat_avg, int snm_width, int frt_wid
 	set_console_color(cr::light_gray, cr::black);
 }
 
-void show_table_nodes(vector<stat_node> nodes, int x, int y, int snm_width, int frt_width, int ptc_width)
+void show_table_nodes(vector<stat_record> records, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
-	if (nodes.empty())
+	if (records.empty())
 	{
 		return;
 	}
 
 	int page_size = 10;
-	int size = nodes.size();
+	int size = records.size();
 
-	show_active_node(nodes[0], x, y, snm_width, frt_width, ptc_width);
+	show_active_node(records[0], x, y, snm_width, frt_width, ptc_width);
 	
 	for (int i = 1; i < page_size; i++)
 	{
@@ -88,7 +89,7 @@ void show_table_nodes(vector<stat_node> nodes, int x, int y, int snm_width, int 
 
 		if (i < size)
 		{
-			show_default_node(nodes[i], x, y, snm_width, frt_width, ptc_width);
+			show_default_node(records[i], x, y, snm_width, frt_width, ptc_width);
 		}
 		else
 		{
@@ -98,14 +99,14 @@ void show_table_nodes(vector<stat_node> nodes, int x, int y, int snm_width, int 
 	}
 }
 
-void run_table_actions(vector<stat_node> nodes, int x, int y, int snm_width, int frt_width, int ptc_width)
+void run_table_actions(vector<stat_record> records, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
 	int page_size = 10;
 	int start_page_index = 0;
 	int end_page_index = 9;
 	int current_page_index = 0;
 
-	int size = nodes.size();
+	int size = records.size();
 	if (size < page_size)
 	{
 		end_page_index = size - 1;
@@ -134,10 +135,10 @@ void run_table_actions(vector<stat_node> nodes, int x, int y, int snm_width, int
 				continue;
 			}
 
-			show_default_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+			show_default_node(records[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
 			current_node_index--;
 			page_node_index--;
-			show_active_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+			show_active_node(records[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
 		}
 
 		if (key_input == 80)
@@ -154,10 +155,10 @@ void run_table_actions(vector<stat_node> nodes, int x, int y, int snm_width, int
 				continue;
 			}
 
-			show_default_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+			show_default_node(records[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
 			current_node_index++;
 			page_node_index++;
-			show_active_node(nodes[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
+			show_active_node(records[current_node_index], x, y + page_node_index, snm_width, frt_width, ptc_width);
 		}
 
 		if (key_input == 75)
@@ -172,7 +173,7 @@ void run_table_actions(vector<stat_node> nodes, int x, int y, int snm_width, int
 			current_node_index = start_page_index;
 			current_page_index--;
 
-			vector<stat_node> page_nodes = slice_nodes(nodes, start_page_index, end_page_index);
+			vector<stat_record> page_nodes = slice_records(records, start_page_index, end_page_index);
 			show_table_nodes(page_nodes, x, y, snm_width, frt_width, ptc_width);
 
 			set_position(20, 23);
@@ -191,11 +192,18 @@ void run_table_actions(vector<stat_node> nodes, int x, int y, int snm_width, int
 			current_node_index = start_page_index;
 			current_page_index++;
 
-			vector<stat_node> page_nodes = slice_nodes(nodes, start_page_index, end_page_index);
+			vector<stat_record> page_nodes = slice_records(records, start_page_index, end_page_index);
 			show_table_nodes(page_nodes, x, y, snm_width, frt_width, ptc_width);
 
 			set_position(20, 23);
 			cout << "Страница " << current_page_index + 1 << " из " << page_num;
+		}
+
+		if (key_input == '\r')
+		{
+			clear_console();
+			show_stat_record_page(records[current_node_index]);
+			break;
 		}
 	}
 }
@@ -204,7 +212,7 @@ void show_table()
 {
 	try
 	{
-		vector<stat_node> students = read_student_stat("students_list.txt");
+		vector<stat_record> students = read_student_stat(fm::get_fmodel());
 
 		if (students.empty())
 		{
@@ -226,7 +234,7 @@ void show_table()
 		int frt_width = 0;
 		int ptc_width = 0;
 
-		for (stat_node student : students)
+		for (stat_record student : students)
 		{
 			int st_surname_len = student.surname.length();
 			int st_first_name_len = student.first_name.length();
@@ -251,10 +259,10 @@ void show_table()
 		ptc_width += 5;
 
 		show_table_title(20, 8, snm_width, frt_width, ptc_width);
-		vector<stat_node> part_nodes = slice_nodes(students, 0, 9);
+		vector<stat_record> part_nodes = slice_records(students, 0, 9);
 		show_table_nodes(part_nodes, 20, 10, snm_width, frt_width, ptc_width);
 
-		double stat_avg = get_nodes_grades_avg(students);
+		double stat_avg = get_records_grades_avg(students);
 
 		show_table_footer(20, 20, stat_avg, snm_width, frt_width, ptc_width);
 		set_position(20, 23);
