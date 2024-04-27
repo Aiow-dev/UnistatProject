@@ -3,11 +3,11 @@
 #include <iomanip>
 #include <conio.h>
 #include <string>
-#include "console.h"
-#include "colors.h"
-#include "stat.h"
+#include "../helpers/console.h"
+#include "../visual/colors.h"
+#include "../controllers/stat.h"
 #include "stat_record_page.h"
-#include "app.h"
+#include "../app.h"
 #include "stat_page.h"
 using namespace std;
 

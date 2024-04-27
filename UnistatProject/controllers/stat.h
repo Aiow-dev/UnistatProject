@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
-#include "stat_model.h"
+#include "../models/stat_model.h"
 using namespace std;
 
 stat_record to_stat_record(string data, string sep = ";");

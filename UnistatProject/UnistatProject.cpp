@@ -1,15 +1,15 @@
 ﻿#include <iostream>
 #include <map>
-#include "console.h"
+#include "helpers/console.h"
 #include "settings.h"
-#include "load.h"
-#include "start_page.h"
-#include "tutorial_page.h"
-#include "colors.h"
-#include "stat_page.h"
-#include "stat_model.h"
-#include "file_model.h"
-#include "stat_record_page.h"
+#include "pages/load_page.h"
+#include "pages/start_page.h"
+#include "pages/tutorial_page.h"
+#include "visual/colors.h"
+#include "pages/stat_page.h"
+#include "models/stat_model.h"
+#include "models/file_model.h"
+#include "pages/stat_record_page.h"
 using namespace std;
 using namespace setting;
 
@@ -34,7 +34,7 @@ int main()
 
 	if (get_parameter("showLoading") == "true")
 	{
-		show_loading();
+		show_load_page();
 		clear_console();
 	}
 

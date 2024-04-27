@@ -127,34 +127,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="colors.cpp" />
-    <ClCompile Include="console.cpp" />
-    <ClCompile Include="file_model.cpp" />
+    <ClCompile Include="visual\colors.cpp" />
+    <ClCompile Include="helpers\console.cpp" />
+    <ClCompile Include="models\file_model.cpp" />
     <ClCompile Include="settings.cpp" />
-    <ClCompile Include="load.cpp" />
-    <ClCompile Include="stat_model.cpp" />
-    <ClCompile Include="stat_page.cpp" />
-    <ClCompile Include="stat_record_page.cpp" />
-    <ClCompile Include="text.cpp" />
-    <ClCompile Include="tutorial_page.cpp" />
-    <ClCompile Include="start_page.cpp" />
-    <ClCompile Include="stat.cpp" />
+    <ClCompile Include="pages\load_page.cpp" />
+    <ClCompile Include="models\stat_model.cpp" />
+    <ClCompile Include="pages\stat_page.cpp" />
+    <ClCompile Include="pages\stat_record_page.cpp" />
+    <ClCompile Include="helpers\text.cpp" />
+    <ClCompile Include="pages\tutorial_page.cpp" />
+    <ClCompile Include="pages\start_page.cpp" />
+    <ClCompile Include="controllers\stat.cpp" />
     <ClCompile Include="UnistatProject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="colors.h" />
-    <ClInclude Include="console.h" />
-    <ClInclude Include="file_model.h" />
+    <ClInclude Include="visual\colors.h" />
+    <ClInclude Include="helpers\console.h" />
+    <ClInclude Include="models\file_model.h" />
     <ClInclude Include="app.h" />
     <ClInclude Include="settings.h" />
-    <ClInclude Include="load.h" />
-    <ClInclude Include="start_page.h" />
-    <ClInclude Include="stat_model.h" />
-    <ClInclude Include="stat_page.h" />
-    <ClInclude Include="stat.h" />
-    <ClInclude Include="stat_record_page.h" />
-    <ClInclude Include="text.h" />
-    <ClInclude Include="tutorial_page.h" />
+    <ClInclude Include="pages\load_page.h" />
+    <ClInclude Include="pages\start_page.h" />
+    <ClInclude Include="models\stat_model.h" />
+    <ClInclude Include="pages\stat_page.h" />
+    <ClInclude Include="controllers\stat.h" />
+    <ClInclude Include="pages\stat_record_page.h" />
+    <ClInclude Include="helpers\text.h" />
+    <ClInclude Include="pages\tutorial_page.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="settings.txt" />

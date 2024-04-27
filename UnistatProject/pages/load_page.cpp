@@ -1,11 +1,11 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
-#include "console.h"
-#include "colors.h"
+#include "../helpers/console.h"
+#include "../visual/colors.h"
 using namespace std;
 
-void show_loading()
+void show_load_page()
 {
 	set_position(52, 13);
 	cout << "Готовимся к запуску...";

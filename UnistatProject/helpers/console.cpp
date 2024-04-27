@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <conio.h>
 #include <iomanip>
-#include "colors.h"
+#include "../visual/colors.h"
 using namespace std;
 
 void set_console_color(int fg_color, int bg_color)

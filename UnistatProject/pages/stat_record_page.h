@@ -1,5 +1,5 @@
 #pragma once
-#include "stat_model.h"
+#include "../models/stat_model.h"
 
 namespace stat_record_page
 {

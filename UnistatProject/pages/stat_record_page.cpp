@@ -1,10 +1,10 @@
 #include <iostream>
 #include <conio.h>
-#include "stat_model.h"
-#include "console.h"
-#include "colors.h"
-#include "stat.h"
-#include "app.h"
+#include "../models/stat_model.h"
+#include "../helpers/console.h"
+#include "../visual/colors.h"
+#include "../controllers/stat.h"
+#include "../app.h"
 using namespace std;
 
 namespace stat_record_page

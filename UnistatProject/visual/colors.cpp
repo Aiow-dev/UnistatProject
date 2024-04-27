@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "settings.h"
+#include "../settings.h"
 using namespace std;
 using namespace setting;
 

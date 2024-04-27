@@ -1,9 +1,9 @@
 #include <iostream>
 #include <conio.h>
 #include <iomanip>
-#include "console.h"
-#include "colors.h"
-#include "app.h"
+#include "../helpers/console.h"
+#include "../visual/colors.h"
+#include "../app.h"
 using namespace std;
 
 string show_start_page()

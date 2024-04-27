@@ -2,9 +2,9 @@
 #include <map>
 #include <Windows.h>
 #include <conio.h>
-#include "console.h"
-#include "settings.h"
-#include "colors.h"
+#include "../helpers/console.h"
+#include "../settings.h"
+#include "../visual/colors.h"
 using namespace std;
 using namespace setting;
 
