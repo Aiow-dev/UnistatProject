@@ -3,9 +3,10 @@
 #include <iomanip>
 #include "console.h"
 #include "colors.h"
+#include "app.h"
 using namespace std;
 
-int show_start_page()
+string show_start_page()
 {
 	set_position(30, 9);
 	cout << "+---------------------------------------------------------+";
@@ -101,5 +102,10 @@ int show_start_page()
 		set_console_color(cr::light_gray, cr::black);
 	}
 
-	return menu_pointer;
+	switch (menu_pointer)
+	{
+	case 0: return app_action::stats_page;
+	case 1: return app_action::settings_page;
+	case 2: return app_action::exit_app;
+	}
 }

@@ -1,3 +1,4 @@
 #pragma once
+#include "app.h"
 
-int show_start_page();
+string show_start_page();

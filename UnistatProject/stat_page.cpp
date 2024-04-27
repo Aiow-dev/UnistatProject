@@ -7,6 +7,8 @@
 #include "colors.h"
 #include "stat.h"
 #include "stat_record_page.h"
+#include "app.h"
+#include "stat_page.h"
 using namespace std;
 
 void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
@@ -99,7 +101,7 @@ void show_table_nodes(vector<stat_record> records, int x, int y, int snm_width, 
 	}
 }
 
-void run_table_actions(vector<stat_record> records, int x, int y, int snm_width, int frt_width, int ptc_width)
+string run_table_actions(vector<stat_record> records, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
 	int page_size = 10;
 	int start_page_index = 0;
@@ -201,14 +203,18 @@ void run_table_actions(vector<stat_record> records, int x, int y, int snm_width,
 
 		if (key_input == '\r')
 		{
+			stat_record_page::set_active_record(records[current_node_index]);
+			return app_action::stats_record_page;
+		}
+		if (key_input == 27)
+		{
 			clear_console();
-			show_stat_record_page(records[current_node_index]);
-			break;
+			return app_action::start_page;
 		}
 	}
 }
 
-void show_table()
+string show_table()
 {
 	try
 	{
@@ -217,7 +223,7 @@ void show_table()
 		if (students.empty())
 		{
 			cout << "Нет записей в ведомости абитуриентов!";
-			return;
+			return app_action::start_page;
 		}
 
 		int size = students.size();
@@ -269,16 +275,16 @@ void show_table()
 		cout << "Страница 1" << " из " << page_num;
 		show_active_node(students[0], 20, 10, snm_width, frt_width, ptc_width);
 
-		run_table_actions(students, 20, 10, snm_width, frt_width, ptc_width);
+		return run_table_actions(students, 20, 10, snm_width, frt_width, ptc_width);
 	}
 	catch (invalid_argument e)
 	{
 		cout << e.what();
-		return;
+		return app_action::start_page;
 	}
 }
 
-int show_stat_page()
+string show_stat_page()
 {
 	set_position(12, 2);
 	cout << "+-----------------------------------------------------------------------------------------------+";
@@ -321,7 +327,5 @@ int show_stat_page()
 	set_position(12, field_y);
 	cout << "+-----------------------------------------------------------------------------------------------+";
 
-	show_table();
-
-	return 0;
+	return show_table();
 }

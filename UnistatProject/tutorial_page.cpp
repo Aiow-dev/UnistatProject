@@ -62,7 +62,8 @@ void show_tutorial_page()
 		"[>] (стрелка вправо) - Переместиться вправо",
 		"[v] (стрелка вниз) - Переместиться вниз",
 		"[1-9] (клавиши цифр) - Выбрать пункт меню",
-		"[Enter] - Подтвердить"
+		"[Enter] - Подтвердить",
+		"[Esc] - Вернуться к предыдущей странице"
 	};
 
 	for (string keyboard_item : keyboard_items)
@@ -76,7 +77,7 @@ void show_tutorial_page()
 		current_y++;
 	}
 
-	current_y += 2;
+	current_y += 1;
 	set_position(46, current_y);
 	set_console_color(cr::fg_active_marker, cr::bg_active_marker);
 	cout << "[Enter] Больше не показывать";

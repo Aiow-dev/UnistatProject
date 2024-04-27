@@ -92,6 +92,9 @@
     <ClInclude Include="stat_record_page.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="app.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="settings.txt" />

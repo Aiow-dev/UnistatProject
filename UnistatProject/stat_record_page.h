@@ -1,4 +1,11 @@
 #pragma once
 #include "stat_model.h"
 
-void show_stat_record_page(stat_record record);
+namespace stat_record_page
+{
+	extern stat_record _active_record;
+
+	string show_stat_record_page(stat_record record);
+	stat_record get_active_record();
+	void set_active_record(stat_record record);
+}

@@ -9,6 +9,7 @@
 #include "stat_page.h"
 #include "stat_model.h"
 #include "file_model.h"
+#include "stat_record_page.h"
 using namespace std;
 using namespace setting;
 
@@ -44,14 +45,29 @@ int main()
 		show_console_cursor(false);
 	}
 
-	int start_page_point = show_start_page();
-	clear_console();
-	switch (start_page_point)
+	string action = app_action::start_page;
+	while (true)
 	{
-	case 0: show_stat_page();
-		break;
-	case 2: return 0;
+		if (action == app_action::start_page)
+		{
+			action = show_start_page();
+			continue;
+		}
+		if (action == app_action::stats_page)
+		{
+			action = show_stat_page();
+			continue;
+		}
+		if (action == app_action::stats_record_page)
+		{
+			action = stat_record_page::show_stat_record_page(stat_record_page::get_active_record());
+			continue;
+		}
+		if (action == app_action::exit_app)
+		{
+			clear_console();
+			set_position(0, 0);
+			return 0;
+		}
 	}
-
-	return 0;
 }

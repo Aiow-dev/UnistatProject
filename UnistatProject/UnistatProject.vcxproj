@@ -145,6 +145,7 @@
     <ClInclude Include="colors.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="file_model.h" />
+    <ClInclude Include="app.h" />
     <ClInclude Include="settings.h" />
     <ClInclude Include="load.h" />
     <ClInclude Include="start_page.h" />

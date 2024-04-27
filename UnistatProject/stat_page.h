@@ -1,3 +1,3 @@
 #pragma once
 
-int show_stat_page();
+string show_stat_page();
