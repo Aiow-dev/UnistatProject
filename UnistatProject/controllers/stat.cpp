@@ -2,7 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
-#include "../controllers/stat.h"
+#include "stat.h"
 using namespace std;
 
 stat_record to_stat_record(string data, string sep)

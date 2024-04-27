@@ -6,9 +6,8 @@
 #include "../helpers/console.h"
 #include "../visual/colors.h"
 #include "../controllers/stat.h"
-#include "stat_record_page.h"
+#include "../controllers/stat_record.h"
 #include "../app.h"
-#include "stat_page.h"
 using namespace std;
 
 void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
@@ -203,7 +202,7 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 
 		if (key_input == '\r')
 		{
-			stat_record_page::set_active_record(records[current_node_index]);
+			stat_record_controller::set_active_record(records[current_node_index]);
 			return app_action::stats_record_page;
 		}
 		if (key_input == 27)

@@ -5,11 +5,12 @@
 #include "pages/load_page.h"
 #include "pages/start_page.h"
 #include "pages/tutorial_page.h"
-#include "visual/colors.h"
 #include "pages/stat_page.h"
+#include "pages/stat_record_page.h"
+#include "visual/colors.h"
 #include "models/stat_model.h"
 #include "models/file_model.h"
-#include "pages/stat_record_page.h"
+#include "controllers/stat_record.h"
 using namespace std;
 using namespace setting;
 
@@ -60,7 +61,7 @@ int main()
 		}
 		if (action == app_action::stats_record_page)
 		{
-			action = stat_record_page::show_stat_record_page(stat_record_page::get_active_record());
+			action = show_stat_record_page(stat_record_controller::get_active_record());
 			continue;
 		}
 		if (action == app_action::exit_app)

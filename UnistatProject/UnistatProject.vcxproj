@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="controllers\stat_record.cpp" />
     <ClCompile Include="visual\colors.cpp" />
     <ClCompile Include="helpers\console.cpp" />
     <ClCompile Include="models\file_model.cpp" />
@@ -142,6 +143,7 @@
     <ClCompile Include="UnistatProject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="controllers\stat_record.h" />
     <ClInclude Include="visual\colors.h" />
     <ClInclude Include="helpers\console.h" />
     <ClInclude Include="models\file_model.h" />
