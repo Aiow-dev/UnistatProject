@@ -5,6 +5,7 @@
 #include <string>
 #include "../helpers/console.h"
 #include "../visual/colors.h"
+#include "../visual/dialogs.h"
 #include "../controllers/stat.h"
 #include "../controllers/stat_record.h"
 #include "../app.h"
@@ -272,6 +273,8 @@ string show_table()
 		show_table_footer(20, 20, stat_avg, snm_width, frt_width, ptc_width);
 		set_position(20, 23);
 		cout << "Страница 1" << " из " << page_num;
+		set_position(80, 23);
+		cout << "Всего записей: " << size;
 		show_active_node(students[0], 20, 10, snm_width, frt_width, ptc_width);
 
 		return run_table_actions(students, 20, 10, snm_width, frt_width, ptc_width);

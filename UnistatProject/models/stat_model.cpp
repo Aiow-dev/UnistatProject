@@ -43,6 +43,7 @@ void delete_frecord_id(fm::file_model fmodel, string id)
 
 	input_file.close();
 	temp_file.close();
+	cout << is_found;
 
 	if (is_found)
 	{

@@ -3,6 +3,7 @@
 #include "../models/stat_model.h"
 #include "../helpers/console.h"
 #include "../visual/colors.h"
+#include "../visual/dialogs.h"
 #include "../controllers/stat.h"
 #include "../app.h"
 using namespace std;
@@ -86,6 +87,7 @@ string show_stat_record_page(stat_record record)
 	cout << "Редактировать";
 	set_position(36, 21);
 	cout << "Выйти";
+	set_console_color(cr::light_gray, cr::black);
 
 	int current_btn = 0;
 
@@ -105,6 +107,16 @@ string show_stat_record_page(stat_record record)
 		{
 			if (current_btn == 0)
 			{
+				break;
+			}
+			if (current_btn == 2)
+			{
+				string dialog_content = "Вы уверены, что хотите удалить выбранную запись? После удаления данную запись невозможно будет восстановить!";
+				bool is_confirm = confirm_dialog("Подтвердите действие", dialog_content);
+				if (is_confirm)
+				{
+					delete_frecord_id(fm::get_fmodel(), record.id);
+				}
 				break;
 			}
 		}
@@ -127,8 +139,8 @@ string show_stat_record_page(stat_record record)
 		}
 	}
 
-	set_console_color(cr::light_gray, cr::black);
 	clear_console();
 	show_console_cursor(false);
+
 	return app_action::stats_page;
 }
