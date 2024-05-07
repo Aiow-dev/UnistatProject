@@ -3,45 +3,14 @@
 #include <iomanip>
 #include "../helpers/console.h"
 #include "../visual/colors.h"
+#include "../visual/dialogs.h"
 #include "../app.h"
 using namespace std;
 
 string show_start_page()
 {
-	set_position(30, 9);
-	cout << "+---------------------------------------------------------+";
-	set_position(30, 10);
-	cout << "|";
-	set_position(88, 10);
-	cout << "|";
-	set_position(30, 11);
-	cout << "|";
-	set_position(88, 11);
-	cout << "|";
-	set_position(51, 11);
-	set_console_color(cr::fg_active_text, cr::black);
-	cout << "Выберите действие";
-	set_console_color(cr::light_gray, cr::black);
-	set_position(30, 12);
-	cout << "|";
-	set_position(88, 12);
-	cout << "|";
-	set_position(30, 13);
-	cout << "+---------------------------------------------------------+";
-
-	int field_y = 14;
-
-	for (int i = 0; i < 5; i++)
-	{
-		set_position(30, field_y);
-		cout << "|";
-		set_position(88, field_y);
-		cout << "|";
-		field_y++;
-	}
-
-	set_position(30, field_y);
-	cout << "+---------------------------------------------------------+";
+	show_dialog_header(30, 88, 9, "Выберите действие");
+	show_dialog_content_frame(30, 88, 14, 5);
 
 	string menu_items[] = {
 		"[1] Открыть ведомость абитуриентов",

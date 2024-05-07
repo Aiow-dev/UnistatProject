@@ -60,6 +60,9 @@
     <ClCompile Include="visual\dialogs.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="visual\components.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="settings.h">
@@ -107,9 +110,13 @@
     <ClInclude Include="visual\dialogs.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="visual\components.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="settings.txt" />
     <Text Include="students_list.txt" />
+    <Text Include="index.txt" />
   </ItemGroup>
 </Project>

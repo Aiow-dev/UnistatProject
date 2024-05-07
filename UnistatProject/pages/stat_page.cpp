@@ -201,6 +201,12 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 			cout << "Страница " << current_page_index + 1 << " из " << page_num;
 		}
 
+		if (key_input == 43)
+		{
+			clear_console();
+			return app_action::create_stats_record_page;
+		}
+
 		if (key_input == '\r')
 		{
 			stat_record_controller::set_active_record(records[current_node_index]);
@@ -288,46 +294,15 @@ string show_table()
 
 string show_stat_page()
 {
-	set_position(12, 2);
-	cout << "+-----------------------------------------------------------------------------------------------+";
-	set_position(12, 3);
-	cout << "|";
-	set_position(108, 3);
-	cout << "|";
-	set_position(30, 4);
-	set_console_color(cr::fg_active_text, cr::black);
-	cout << "Ведомость абитуриентов (вступительные экзамены в университет)";
-	set_console_color(cr::light_gray, cr::black);
-	set_position(12, 4);
-	cout << "|";
-	set_position(108, 4);
-	cout << "|";
-	set_position(12, 5);
-	cout << "|";
-	set_position(108, 5);
-	cout << "|";
-	set_position(12, 6);
-	cout << "+-----------------------------------------------------------------------------------------------+";
+	show_dialog_header(12, 108, 2, "Ведомость абитуриентов (Нажмите + для создания новой записи)");
+	show_dialog_content_frame(12, 108, 7, 20);
 
-	int field_y = 7;
-
-	for (int i = 0; i < 20; i++)
-	{
-		set_position(12, field_y);
-		cout << "|";
-		set_position(108, field_y);
-		cout << "|";
-		field_y++;
-	}
-
-	set_position(20, field_y - 2);
+	set_position(20, 25);
 	set_console_color(cr::black, cr::light_gray);
 	cout << "<--";
-	set_position(95, field_y - 2);
+	set_position(95, 25);
 	cout << "-->";
 	set_console_color(cr::light_gray, cr::black);
-	set_position(12, field_y);
-	cout << "+-----------------------------------------------------------------------------------------------+";
 
 	return show_table();
 }

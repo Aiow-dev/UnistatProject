@@ -1,52 +1,166 @@
 #include <iostream>
 #include <conio.h>
+#include <string>
 #include "../models/stat_model.h"
 #include "../helpers/console.h"
+#include "../helpers/text.h"
 #include "../visual/colors.h"
 #include "../visual/dialogs.h"
+#include "../visual/components.h"
 #include "../controllers/stat.h"
 #include "../app.h"
 using namespace std;
+
+string show_create_stat_record_page()
+{
+	clear_console();
+	show_console_cursor(true);
+
+	show_dialog_header(13, 105, 2, "Создание новой записи");
+	show_dialog_content_frame(13, 105, 7, 20);
+
+	set_position(28, 8);
+	cout << "Для отмены создания записи нажмите Enter в любом текстовом поле";
+
+	ConsoleTextInput console_input(15, 11, 69, "Фамилия:");
+	console_input.set_max_width(43);
+	console_input.set_max_input_len(25);
+	console_input.set_error_message("Ошибка. Поле должно содержать только буквы!");
+	if (!console_input.wait_input(is_letters_text))
+	{
+		clear_console();
+		show_console_cursor(false);
+		return app_action::stats_page;
+	}
+	string surname = console_input.get_text_input();
+
+	console_input.set_x(60);
+	console_input.set_label("Имя:");
+	if (!console_input.wait_input(is_letters_text))
+	{
+		clear_console();
+		show_console_cursor(false);
+		return app_action::stats_page;
+	}
+	string first_name = console_input.get_text_input();
+
+	console_input.set_x(15);
+	console_input.set_y(14);
+	console_input.set_label("Отчество:");
+	if (!console_input.wait_input(is_letters_text))
+	{
+		clear_console();
+		show_console_cursor(false);
+		return app_action::stats_page;
+	}
+	string patronymic = console_input.get_text_input();
+
+	console_input.set_y(17);
+	console_input.set_label("Оценка по первому предмету:");
+	console_input.set_max_input_len(10);
+	console_input.set_error_message("Ошибка. Поле должно быть числом от 1 до 10!");
+	if (!console_input.wait_input(is_dnumber))
+	{
+		clear_console();
+		show_console_cursor(false);
+		return app_action::stats_page;
+	}
+	int sub_grade1 = stoi(console_input.get_text_input());
+
+	console_input.set_x(60);
+	console_input.set_label("Оценка по второму предмету:");
+	if (!console_input.wait_input(is_dnumber))
+	{
+		clear_console();
+		show_console_cursor(false);
+		return app_action::stats_page;
+	}
+	int sub_grade2 = stoi(console_input.get_text_input());
+
+	console_input.set_x(15);
+	console_input.set_y(20);
+	console_input.set_label("Оценка по третьему предмету:");
+	if (!console_input.wait_input(is_dnumber))
+	{
+		clear_console();
+		show_console_cursor(false);
+		return app_action::stats_page;
+	}
+	int sub_grade3 = stoi(console_input.get_text_input());
+
+	console_input.set_x(60);
+	console_input.set_label("Оценка по четвертому предмету:");
+	if (!console_input.wait_input(is_dnumber))
+	{
+		clear_console();
+		show_console_cursor(false);
+		return app_action::stats_page;
+	}
+	int sub_grade4 = stoi(console_input.get_text_input());
+
+	stat_record record = {"", surname, first_name, patronymic, {sub_grade1, sub_grade2, sub_grade3, sub_grade4}};
+
+	set_position(40, 23);
+	cout << "Подтверждение создания новой записи...";
+
+	set_console_color(cr::black, cr::light_gray);
+	set_position(67, 25);
+	cout << "[Отмена]";
+	set_console_color(cr::black, cr::bg_active_marker);
+	set_position(42, 25);
+	cout << "[Создать]";
+	set_console_color(cr::light_gray, cr::black);
+
+	int current_btn = 0;
+
+	while (true)
+	{
+		int key_input = _getch();
+
+		if (key_input == 75 && current_btn > 0)
+		{
+			set_position(51, 25);
+			current_btn--;
+		}
+		if (key_input == 77 && current_btn < 2)
+		{
+			set_position(75, 25);
+			current_btn++;
+		}
+		if (key_input == 27)
+		{
+			break;
+		}
+		if (key_input == '\r')
+		{
+			if (current_btn == 0)
+			{
+				try
+				{
+					create_frecord(fm::get_fmodel(), fm::get_index_model(), record);
+				}
+				catch (exception e)
+				{
+					break;
+				}
+			}
+			break;
+		}
+	}
+
+	clear_console();
+	show_console_cursor(false);
+
+	return app_action::stats_page;
+}
 
 string show_stat_record_page(stat_record record)
 {
 	clear_console();
 	show_console_cursor(true);
 
-	set_position(30, 6);
-	cout << "+---------------------------------------------------------+";
-	set_position(30, 7);
-	cout << "|";
-	set_position(88, 7);
-	cout << "|";
-	set_position(30, 8);
-	cout << "|";
-	set_position(88, 8);
-	cout << "|";
-	set_position(51, 8);
-	set_console_color(cr::fg_active_text, cr::black);
-	cout << "Выбранная запись";
-	set_console_color(cr::light_gray, cr::black);
-	set_position(30, 9);
-	cout << "|";
-	set_position(88, 9);
-	cout << "|";
-	set_position(30, 10);
-	cout << "+---------------------------------------------------------+";
-
-	int field_y = 11;
-
-	for (int i = 0; i < 12; i++)
-	{
-		set_position(30, field_y);
-		cout << "|";
-		set_position(88, field_y);
-		cout << "|";
-		field_y++;
-	}
-
-	set_position(30, field_y);
-	cout << "+---------------------------------------------------------+";
+	show_dialog_header(30, 88, 6, "Выбранная запись");
+	show_dialog_content_frame(30, 88, 11, 12);
 
 	set_position(36, 12);
 	set_console_color(cr::fg_active_text, cr::black);
@@ -79,14 +193,14 @@ string show_stat_record_page(stat_record record)
 	set_console_color(cr::light_gray, cr::black);
 	cout << get_record_grades_avg(record);
 
-	set_position(76, 21);
+	set_position(74, 21);
 	set_console_color(cr::black, cr::light_red);
-	cout << "Удалить";
-	set_position(45, 21);
+	cout << "[Удалить]";
+	set_position(48, 21);
 	set_console_color(cr::black, cr::light_gray);
-	cout << "Редактировать";
+	cout << "[Редактировать]";
 	set_position(36, 21);
-	cout << "Выйти";
+	cout << "[Выйти]";
 	set_console_color(cr::light_gray, cr::black);
 
 	int current_btn = 0;
@@ -112,12 +226,13 @@ string show_stat_record_page(stat_record record)
 			if (current_btn == 2)
 			{
 				string dialog_content = "Вы уверены, что хотите удалить выбранную запись? После удаления данную запись невозможно будет восстановить!";
-				bool is_confirm = confirm_dialog("Подтвердите действие", dialog_content);
+				bool is_confirm = question_dialog("Подтвердите действие", dialog_content);
 				if (is_confirm)
 				{
 					delete_frecord_id(fm::get_fmodel(), record.id);
+					break;
 				}
-				break;
+				return app_action::stats_record_page;
 			}
 		}
 		if (key_input == 27)
@@ -127,11 +242,11 @@ string show_stat_record_page(stat_record record)
 
 		if (current_btn == 0)
 		{
-			set_position(41, 21);
+			set_position(43, 21);
 		}
 		if (current_btn == 1)
 		{
-			set_position(58, 21);
+			set_position(63, 21);
 		}
 		if (current_btn == 2)
 		{

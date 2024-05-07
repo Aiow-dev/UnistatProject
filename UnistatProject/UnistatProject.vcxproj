@@ -141,6 +141,7 @@
     <ClCompile Include="pages\start_page.cpp" />
     <ClCompile Include="controllers\stat.cpp" />
     <ClCompile Include="UnistatProject.cpp" />
+    <ClCompile Include="visual\components.cpp" />
     <ClCompile Include="visual\dialogs.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,9 +159,11 @@
     <ClInclude Include="pages\stat_record_page.h" />
     <ClInclude Include="helpers\text.h" />
     <ClInclude Include="pages\tutorial_page.h" />
+    <ClInclude Include="visual\components.h" />
     <ClInclude Include="visual\dialogs.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="index.txt" />
     <Text Include="settings.txt" />
     <Text Include="students_list.txt" />
   </ItemGroup>

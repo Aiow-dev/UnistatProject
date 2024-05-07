@@ -12,4 +12,6 @@ struct stat_record
 	int grades[4]{};
 };
 
+string to_frecord(stat_record record, string sep = ";");
 void delete_frecord_id(fm::file_model fmodel, string id);
+void create_frecord(fm::file_model fmodel, fm::file_model index_model, stat_record record);

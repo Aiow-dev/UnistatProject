@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <map>
+#include <Windows.h>
 #include "helpers/console.h"
 #include "settings.h"
 #include "pages/load_page.h"
@@ -17,11 +18,13 @@ using namespace setting;
 int main()
 {
 	setlocale(LC_ALL, "RuS");
+	SetConsoleCP(1251);
 	
 	try
 	{
 		read_settings();
 		fm::set_fmodel("students_list.txt");
+		fm::set_index_model("index.txt");
 	}
 	catch (exception e)
 	{
@@ -62,6 +65,11 @@ int main()
 		if (action == app_action::stats_record_page)
 		{
 			action = show_stat_record_page(stat_record_controller::get_active_record());
+			continue;
+		}
+		if (action == app_action::create_stats_record_page)
+		{
+			action = show_create_stat_record_page();
 			continue;
 		}
 		if (action == app_action::exit_app)

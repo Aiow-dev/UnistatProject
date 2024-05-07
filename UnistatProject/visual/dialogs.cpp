@@ -6,14 +6,19 @@
 #include "../models/file_model.h"
 using namespace std;
 
+void show_frame_line(int start_x, int start_y, int length)
+{
+	set_position(start_x, start_y);
+	cout << "+" << string(length - 2, '-') << "+";
+}
+
 void show_dialog_header(int start_x, int end_x, int start_y, string title)
 {
 	int max_header_width = end_x - start_x - 4;
 	int margin_content_x = (max_header_width - title.length()) / 2;
 	int content_middle = start_x + margin_content_x + 2;
 
-	set_position(start_x, start_y);
-	cout << "+---------------------------------------------------------+";
+	show_frame_line(start_x, start_y, end_x - start_x + 1);
 	set_position(start_x, start_y + 1);
 	cout << "|";
 	set_position(end_x, start_y + 1);
@@ -30,11 +35,10 @@ void show_dialog_header(int start_x, int end_x, int start_y, string title)
 	cout << "|";
 	set_position(end_x, start_y + 3);
 	cout << "|";
-	set_position(start_x, start_y + 4);
-	cout << "+---------------------------------------------------------+";
+	show_frame_line(start_x, start_y + 4, end_x - start_x + 1);
 }
 
-void show_dialog_frame(int start_x, int end_x, int start_y, int frame_height)
+void show_dialog_content_frame(int start_x, int end_x, int start_y, int frame_height)
 {
 	for (int i = 0; i < frame_height; i++)
 	{
@@ -45,11 +49,10 @@ void show_dialog_frame(int start_x, int end_x, int start_y, int frame_height)
 		start_y++;
 	}
 
-	set_position(start_x, start_y);
-	cout << "+---------------------------------------------------------+";
+	show_frame_line(start_x, start_y, end_x - start_x + 1);
 }
 
-bool confirm_dialog(string title, string content)
+bool question_dialog(string title, string content)
 {
 	clear_console();
 	show_console_cursor(true);
@@ -61,7 +64,7 @@ bool confirm_dialog(string title, string content)
 	int margin_dialog_y = (25 - frame_height) / 2;
 
 	show_dialog_header(30, 88, margin_dialog_y, title);
-	show_dialog_frame(30, 88, margin_dialog_y + 5, frame_height);
+	show_dialog_content_frame(30, 88, margin_dialog_y + 5, frame_height);
 
 	int content_max_x = 86;
 	int current_content_x = 32;
