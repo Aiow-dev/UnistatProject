@@ -228,7 +228,7 @@ string show_table()
 
 		if (students.empty())
 		{
-			cout << "Ќет записей в ведомости абитуриентов!";
+			message_dialog("Ќет записей в ведомости абитуриентов!");
 			return app_action::start_page;
 		}
 
@@ -285,10 +285,10 @@ string show_table()
 
 		return run_table_actions(students, 20, 10, snm_width, frt_width, ptc_width);
 	}
-	catch (invalid_argument e)
+	catch (exception e)
 	{
-		cout << e.what();
-		return app_action::start_page;
+		error_dialog(e.what());
+		return app_action::exit_app;
 	}
 }
 

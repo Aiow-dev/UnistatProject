@@ -36,6 +36,10 @@ void delete_frecord_id(fm::file_model fmodel, string id)
 
 	while (getline(input_file, line))
 	{
+		if (line.empty())
+		{
+			continue;
+		}
 		int end_id_index = line.find(';');
 		if (end_id_index == -1)
 		{

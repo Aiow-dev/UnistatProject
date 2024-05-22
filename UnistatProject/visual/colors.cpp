@@ -2,7 +2,6 @@
 #include <string>
 #include "../settings.h"
 using namespace std;
-using namespace setting;
 
 namespace cr
 {
@@ -29,19 +28,19 @@ namespace cr
 
 	void read_active_colors()
 	{
-		string fg_act_text = get_parameter("fgActiveTextColor");
+		string fg_act_text = setting::get_parameter("fgActiveTextColor");
 		if (!fg_act_text.empty())
 		{
 			fg_active_text = stoi(fg_act_text);
 		}
 		
-		string fg_act_marker = get_parameter("fgActiveMarkerColor");
+		string fg_act_marker = setting::get_parameter("fgActiveMarkerColor");
 		if (!fg_act_marker.empty())
 		{
 			fg_active_marker = stoi(fg_act_marker);
 		}
 
-		string bg_act_marker = get_parameter("bgActiveMarkerColor");
+		string bg_act_marker = setting::get_parameter("bgActiveMarkerColor");
 		if (!bg_act_marker.empty())
 		{
 			bg_active_marker = stoi(bg_act_marker);

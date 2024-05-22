@@ -9,6 +9,7 @@
 #include "pages/stat_page.h"
 #include "pages/stat_record_page.h"
 #include "visual/colors.h"
+#include "visual/dialogs.h"
 #include "models/stat_model.h"
 #include "models/file_model.h"
 #include "controllers/stat_record.h"
@@ -28,7 +29,7 @@ int main()
 	}
 	catch (exception e)
 	{
-		cout << e.what();
+		error_dialog(e.what());
 		return 0;
 	}
 

@@ -55,6 +55,10 @@ vector<stat_record> read_student_stat(fm::file_model fmodel)
 
 		while (getline(student_stat, line))
 		{
+			if (line.empty())
+			{
+				continue;
+			}
 			try
 			{
 				stat_records.push_back(to_stat_record(line));
