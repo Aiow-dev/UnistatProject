@@ -8,6 +8,7 @@
 #include "pages/tutorial_page.h"
 #include "pages/stat_page.h"
 #include "pages/stat_record_page.h"
+#include "pages/settings_page.h"
 #include "visual/colors.h"
 #include "visual/dialogs.h"
 #include "models/stat_model.h"
@@ -56,6 +57,11 @@ int main()
 		if (action == app_action::start_page)
 		{
 			action = show_start_page();
+			continue;
+		}
+		if (action == app_action::settings_page)
+		{
+			action = show_settings_page();
 			continue;
 		}
 		if (action == app_action::stats_page)

@@ -5,6 +5,7 @@
 #include "../helpers/console.h"
 #include "../settings.h"
 #include "../visual/colors.h"
+#include "../visual/dialogs.h"
 using namespace std;
 using namespace setting;
 
@@ -12,28 +13,13 @@ void show_tutorial_page()
 {
 	int field_start_x = 25;
 	int field_end_x = 94;
+	int frame_height = 16;
 
-	set_position(field_start_x, 5);
-	cout << "+--------------------------------------------------------------------+";
-	set_position(42, 7);
-	set_console_color(cr::fg_active_text, cr::black);
-	cout << "Добро пожаловать в приложение Unistat!";
-	set_console_color(cr::light_gray, cr::black);
-
-	int field_y = 6;
-	for (int i = 0; i < 18; i++)
-	{
-		set_position(field_start_x, field_y);
-		cout << "|";
-		set_position(field_end_x, field_y);
-		cout << "|";
-		field_y++;
-	}
-	set_position(field_start_x, field_y);
-	cout << "+--------------------------------------------------------------------+";
+	show_dialog_header(field_start_x, field_end_x, 5, "Добро пожаловать в приложение Unistat!");
+	show_dialog_content_frame(field_start_x, field_end_x, 10, frame_height);
 
 	int current_x = 31;
-	int current_y = 9;
+	int current_y = 11;
 	set_position(current_x, current_y);
 
 	int end_text_x = field_end_x - 6;

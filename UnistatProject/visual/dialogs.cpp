@@ -6,6 +6,13 @@
 #include "../models/file_model.h"
 using namespace std;
 
+int text_to_dialog_center(int start_x, int end_x, int text_len)
+{
+	int max_width = end_x - start_x - 4;
+	int margin_x = (max_width - text_len) / 2;
+	return start_x + margin_x + 2;
+}
+
 void show_frame_line(int start_x, int start_y, int length)
 {
 	set_position(start_x, start_y);
@@ -14,9 +21,7 @@ void show_frame_line(int start_x, int start_y, int length)
 
 void show_dialog_header(int start_x, int end_x, int start_y, string title)
 {
-	int max_header_width = end_x - start_x - 4;
-	int margin_content_x = (max_header_width - title.length()) / 2;
-	int content_middle = start_x + margin_content_x + 2;
+	int header_center_x = text_to_dialog_center(start_x, end_x, title.length());
 
 	show_frame_line(start_x, start_y, end_x - start_x + 1);
 	set_position(start_x, start_y + 1);
@@ -27,7 +32,7 @@ void show_dialog_header(int start_x, int end_x, int start_y, string title)
 	cout << "|";
 	set_position(end_x, start_y + 2);
 	cout << "|";
-	set_position(content_middle, start_y + 2);
+	set_position(header_center_x, start_y + 2);
 	set_console_color(cr::fg_active_text, cr::black);
 	cout << title;
 	set_console_color(cr::light_gray, cr::black);
@@ -40,10 +45,8 @@ void show_dialog_header(int start_x, int end_x, int start_y, string title)
 
 void show_error_dialog_header(int start_x, int end_x, int start_y)
 {
-	int max_header_width = end_x - start_x - 4;
 	int title_len = 6;
-	int margin_content_x = (max_header_width - title_len) / 2;
-	int content_middle = start_x + margin_content_x + 2;
+	int header_center_x = text_to_dialog_center(start_x, end_x, title_len);
 
 	set_console_color(cr::light_red, cr::black);
 	show_frame_line(start_x, start_y, end_x - start_x + 1);
@@ -55,7 +58,7 @@ void show_error_dialog_header(int start_x, int end_x, int start_y)
 	cout << "|";
 	set_position(end_x, start_y + 2);
 	cout << "|";
-	set_position(content_middle, start_y + 2);
+	set_position(header_center_x, start_y + 2);
 	cout << "Îøèáêà";
 	set_position(start_x, start_y + 3);
 	cout << "|";

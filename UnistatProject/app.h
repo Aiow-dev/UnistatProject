@@ -1,4 +1,7 @@
 #pragma once
+#include <iostream>
+using namespace std;
+
 namespace app_action
 {
 	string const start_page = "open_start_page";

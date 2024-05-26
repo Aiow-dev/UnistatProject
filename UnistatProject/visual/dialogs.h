@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+int text_to_dialog_center(int start_x, int end_x, int text_len);
 void show_frame_line(int start_x, int start_y, int length);
 void show_dialog_header(int start_x, int end_x, int start_y, string title);
 void show_error_dialog_header(int start_x, int end_x, int start_y);

@@ -63,6 +63,9 @@
     <ClCompile Include="visual\components.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="pages\settings_page.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="settings.h">
@@ -111,6 +114,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="visual\components.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="pages\settings_page.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
