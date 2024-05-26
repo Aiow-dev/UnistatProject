@@ -83,6 +83,7 @@ int main()
 		{
 			clear_console();
 			set_position(0, 0);
+			setting::save_settings();
 			return 0;
 		}
 	}

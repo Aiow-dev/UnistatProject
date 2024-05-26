@@ -105,7 +105,6 @@ string show_settings_page()
 
 		setting::set_parameter("fgActiveTextColor", to_string(current_color));
 		setting::set_parameter("bgActiveMarkerColor", to_string(current_color));
-		setting::save_settings();
 	}
 
 	set_console_color(cr::light_gray, cr::black);

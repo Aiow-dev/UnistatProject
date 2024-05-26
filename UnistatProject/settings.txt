@@ -1,5 +1,5 @@
-bgActiveMarkerColor : 12
+bgActiveMarkerColor : 3
 fgActiveMarkerColor : 0
-fgActiveTextColor : 12
+fgActiveTextColor : 3
 showLoading : true
 showTutorial : true
