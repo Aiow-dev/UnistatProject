@@ -1,6 +1,8 @@
 #include <iostream>
 #include <conio.h>
+#include <functional>
 #include "colors.h"
+#include "components.h"
 #include "../helpers/console.h"
 #include "../models/stat_model.h"
 #include "../models/file_model.h"
@@ -255,4 +257,39 @@ void message_dialog(string message)
 
 	clear_console();
 	show_console_cursor(false);
+}
+
+string input_dialog(string parameter, function<bool(string)> input_checker, int input_len, string error)
+{
+	clear_console();
+	show_console_cursor(true);
+
+	int frame_height = 8;
+	int margin_dialog_y = (25 - frame_height) / 2;
+
+	show_dialog_header(30, 90, margin_dialog_y, "Введите значение (" + parameter + ")");
+	show_dialog_content_frame(30, 90, margin_dialog_y + 5, frame_height);
+
+	int current_content_y = margin_dialog_y + 6;
+
+	string exit_text = "Для отмены ввода нажмите Enter в текстовом поле";
+	int exit_text_center_x = text_to_dialog_center(30, 90, exit_text.length());
+	set_position(exit_text_center_x, current_content_y);
+	cout << exit_text;
+
+	string input_value = "";
+
+	ConsoleTextInput console_input(exit_text_center_x, current_content_y + 2, 69, parameter + ":");
+	console_input.set_max_width(49);
+	console_input.set_max_input_len(input_len);
+	console_input.set_error_message(error);
+	if (console_input.wait_input(input_checker))
+	{
+		input_value = console_input.get_text_input();
+	}
+
+	clear_console();
+	show_console_cursor(false);
+
+	return input_value;
 }

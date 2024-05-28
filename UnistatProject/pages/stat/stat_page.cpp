@@ -3,12 +3,13 @@
 #include <iomanip>
 #include <conio.h>
 #include <string>
-#include "../helpers/console.h"
-#include "../visual/colors.h"
-#include "../visual/dialogs.h"
-#include "../controllers/stat.h"
-#include "../controllers/stat_record.h"
-#include "../app.h"
+#include "find_stat_page.h"
+#include "../../helpers/console.h"
+#include "../../visual/colors.h"
+#include "../../visual/dialogs.h"
+#include "../../controllers/stat.h"
+#include "../../controllers/stat_record.h"
+#include "../../app.h"
 using namespace std;
 
 void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
@@ -101,6 +102,51 @@ void show_table_nodes(vector<stat_record> records, int x, int y, int snm_width, 
 	}
 }
 
+void update_stat_table(vector<stat_record> records, int snm_width, int frt_width, int ptc_width)
+{
+	int size = records.size();
+	int page_size = 10;
+	int page_num = size / page_size;
+	int offset = size % page_size;
+
+	if (offset != 0)
+	{
+		page_num++;
+	}
+
+	show_table_title(20, 8, snm_width, frt_width, ptc_width);
+	vector<stat_record> part_nodes = slice_records(records, 0, 9);
+	show_table_nodes(part_nodes, 20, 10, snm_width, frt_width, ptc_width);
+
+	double stat_avg = get_records_grades_avg(records);
+
+	show_table_footer(20, 20, stat_avg, snm_width, frt_width, ptc_width);
+	set_position(20, 23);
+	cout << "Страница 1" << " из " << page_num;
+	set_position(80, 23);
+	cout << "Всего записей: " << size;
+	show_active_node(records[0], 20, 10, snm_width, frt_width, ptc_width);
+}
+
+void update_stat_page()
+{
+	show_dialog_header(12, 108, 2, "Ведомость абитуриентов (Нажмите + для создания новой записи)");
+	show_dialog_content_frame(12, 108, 7, 20);
+
+	set_position(20, 25);
+	set_console_color(cr::black, cr::light_gray);
+	cout << "<--";
+	set_position(34, 25);
+	cout << "[S] Сортировать";
+	set_position(55, 25);
+	cout << "[R] Поиск";
+	set_position(70, 25);
+	cout << "[F] Фильтровать";
+	set_position(95, 25);
+	cout << "-->";
+	set_console_color(cr::light_gray, cr::black);
+}
+
 string run_table_actions(vector<stat_record> records, int x, int y, int snm_width, int frt_width, int ptc_width)
 {
 	int page_size = 10;
@@ -114,12 +160,12 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 		end_page_index = size - 1;
 	}
 
-	int page_num = size / page_size;
-	int offset = size % page_size;
+	int page_count = size / page_size;
+	int page_offset = size % page_size;
 
-	if (offset != 0)
+	if (page_offset != 0)
 	{
-		page_num++;
+		page_count++;
 	}
 
 	int current_node_index = 0;
@@ -127,6 +173,7 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 	while (true)
 	{
 		int key_input = _getch();
+		//cout << key_input;
 
 		if (key_input == 72)
 		{
@@ -179,7 +226,7 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 			show_table_nodes(page_nodes, x, y, snm_width, frt_width, ptc_width);
 
 			set_position(20, 23);
-			cout << "Страница " << current_page_index + 1 << " из " << page_num;
+			cout << "Страница " << current_page_index + 1 << " из " << page_count;
 		}
 
 		if (key_input == 77)
@@ -198,13 +245,47 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 			show_table_nodes(page_nodes, x, y, snm_width, frt_width, ptc_width);
 
 			set_position(20, 23);
-			cout << "Страница " << current_page_index + 1 << " из " << page_num;
+			cout << "Страница " << current_page_index + 1 << " из " << page_count;
 		}
 
 		if (key_input == 43)
 		{
 			clear_console();
 			return app_action::create_stats_record_page;
+		}
+
+		if (key_input == 114)
+		{
+			stat_record_find find_parameters = show_find_stat_page();
+			if (find_parameters.find_parameter.empty() || find_parameters.find_value.empty())
+			{
+				update_stat_page();
+				update_stat_table(records, snm_width, frt_width, ptc_width);
+				continue;
+			}
+			records = find_records(records, find_parameters);
+
+			if (records.empty())
+			{
+				message_dialog("Нет найденных записей!");
+				return app_action::stats_page;
+			}
+
+			size = records.size();
+			if (size < page_size)
+			{
+				end_page_index = size - 1;
+			}
+
+			page_count = size / page_size;
+			page_offset = size % page_size;
+
+			if (page_offset != 0)
+			{
+				page_count++;
+			}
+			update_stat_page();
+			update_stat_table(records, snm_width, frt_width, ptc_width);
 		}
 
 		if (key_input == '\r')
@@ -224,29 +305,19 @@ string show_table()
 {
 	try
 	{
-		vector<stat_record> students = read_student_stat(fm::get_fmodel());
+		vector<stat_record> records = read_student_stat(fm::get_fmodel());
 
-		if (students.empty())
+		if (records.empty())
 		{
 			message_dialog("Нет записей в ведомости абитуриентов!");
 			return app_action::start_page;
-		}
-
-		int size = students.size();
-		int page_size = 10;
-		int page_num = size / page_size;
-		int offset = size % page_size;
-
-		if (offset != 0)
-		{
-			page_num++;
 		}
 
 		int snm_width = 0;
 		int frt_width = 0;
 		int ptc_width = 0;
 
-		for (stat_record student : students)
+		for (stat_record student : records)
 		{
 			int st_surname_len = student.surname.length();
 			int st_first_name_len = student.first_name.length();
@@ -270,20 +341,9 @@ string show_table()
 		frt_width += 5;
 		ptc_width += 5;
 
-		show_table_title(20, 8, snm_width, frt_width, ptc_width);
-		vector<stat_record> part_nodes = slice_records(students, 0, 9);
-		show_table_nodes(part_nodes, 20, 10, snm_width, frt_width, ptc_width);
+		update_stat_table(records, snm_width, frt_width, ptc_width);
 
-		double stat_avg = get_records_grades_avg(students);
-
-		show_table_footer(20, 20, stat_avg, snm_width, frt_width, ptc_width);
-		set_position(20, 23);
-		cout << "Страница 1" << " из " << page_num;
-		set_position(80, 23);
-		cout << "Всего записей: " << size;
-		show_active_node(students[0], 20, 10, snm_width, frt_width, ptc_width);
-
-		return run_table_actions(students, 20, 10, snm_width, frt_width, ptc_width);
+		return run_table_actions(records, 20, 10, snm_width, frt_width, ptc_width);
 	}
 	catch (exception e)
 	{
@@ -294,15 +354,6 @@ string show_table()
 
 string show_stat_page()
 {
-	show_dialog_header(12, 108, 2, "Ведомость абитуриентов (Нажмите + для создания новой записи)");
-	show_dialog_content_frame(12, 108, 7, 20);
-
-	set_position(20, 25);
-	set_console_color(cr::black, cr::light_gray);
-	cout << "<--";
-	set_position(95, 25);
-	cout << "-->";
-	set_console_color(cr::light_gray, cr::black);
-
+	update_stat_page();
 	return show_table();
 }

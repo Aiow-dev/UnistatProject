@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="controllers\stat_record.cpp" />
+    <ClCompile Include="pages\stat\find_stat_page.cpp" />
     <ClCompile Include="pages\settings_page.cpp" />
     <ClCompile Include="visual\colors.cpp" />
     <ClCompile Include="helpers\console.cpp" />
@@ -135,8 +136,8 @@
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="pages\load_page.cpp" />
     <ClCompile Include="models\stat_model.cpp" />
-    <ClCompile Include="pages\stat_page.cpp" />
-    <ClCompile Include="pages\stat_record_page.cpp" />
+    <ClCompile Include="pages\stat\stat_page.cpp" />
+    <ClCompile Include="pages\stat\stat_record_page.cpp" />
     <ClCompile Include="helpers\text.cpp" />
     <ClCompile Include="pages\tutorial_page.cpp" />
     <ClCompile Include="pages\start_page.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controllers\stat_record.h" />
+    <ClInclude Include="pages\stat\find_stat_page.h" />
     <ClInclude Include="pages\settings_page.h" />
     <ClInclude Include="visual\colors.h" />
     <ClInclude Include="helpers\console.h" />
@@ -156,9 +158,9 @@
     <ClInclude Include="pages\load_page.h" />
     <ClInclude Include="pages\start_page.h" />
     <ClInclude Include="models\stat_model.h" />
-    <ClInclude Include="pages\stat_page.h" />
+    <ClInclude Include="pages\stat\stat_page.h" />
     <ClInclude Include="controllers\stat.h" />
-    <ClInclude Include="pages\stat_record_page.h" />
+    <ClInclude Include="pages\stat\stat_record_page.h" />
     <ClInclude Include="helpers\text.h" />
     <ClInclude Include="pages\tutorial_page.h" />
     <ClInclude Include="visual\components.h" />

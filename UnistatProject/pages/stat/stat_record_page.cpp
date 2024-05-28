@@ -1,14 +1,14 @@
 #include <iostream>
 #include <conio.h>
 #include <string>
-#include "../models/stat_model.h"
-#include "../helpers/console.h"
-#include "../helpers/text.h"
-#include "../visual/colors.h"
-#include "../visual/dialogs.h"
-#include "../visual/components.h"
-#include "../controllers/stat.h"
-#include "../app.h"
+#include "../../models/stat_model.h"
+#include "../../helpers/console.h"
+#include "../../helpers/text.h"
+#include "../../visual/colors.h"
+#include "../../visual/dialogs.h"
+#include "../../visual/components.h"
+#include "../../controllers/stat.h"
+#include "../../app.h"
 using namespace std;
 
 string show_create_stat_record_page()

@@ -24,6 +24,34 @@ string trim(string text)
 	return text;
 }
 
+string replace_symbol(string text, char from, char to)
+{
+	for (int i = 0; i < text.length(); i++)
+	{
+		if (text[i] == from)
+		{
+			text[i] = to;
+		}
+	}
+
+	return text;
+}
+
+int count_symbol(string text, char symbol)
+{
+	int count = 0;
+
+	for (int i = 0; i < text.length(); i++)
+	{
+		if (text[i] == symbol)
+		{
+			count++;
+		}
+	}
+
+	return count;
+}
+
 bool is_letters_text(string text)
 {
 	int counts = 0;
@@ -39,13 +67,26 @@ bool is_letters_text(string text)
 	return counts == text.length();
 }
 
+bool is_digits_text(string text)
+{
+	for (int i = 0; i < text.length(); i++)
+	{
+		if (!isdigit(text[i]))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 bool is_dnumber(string text)
 {
 	int text_len = text.length();
 
 	if (text_len == 1)
 	{
-		return isdigit(text[0]);
+		return isdigit(text[0]) && text[0] != '0';
 	}
 	if (text_len == 2)
 	{
@@ -53,6 +94,27 @@ bool is_dnumber(string text)
 	}
 
 	return false;
+}
+
+bool is_dnumber_point(string text)
+{
+	try
+	{
+		text = replace_symbol(text, '.', ',');
+		int count_point = count_symbol(text, ',');
+		
+		if (count_point > 1)
+		{
+			return false;
+		}
+
+		double number = stod(text);
+		return number >= 1 && number <= 10;
+	}
+	catch (exception e)
+	{
+		return false;
+	}
 }
 
 string add_num(string num_text)

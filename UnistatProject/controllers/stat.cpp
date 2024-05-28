@@ -127,3 +127,114 @@ vector<stat_record> slice_records(vector<stat_record> records, int from, int to)
 
 	return vector<stat_record>(records.begin() + from, records.begin() + to + 1);
 }
+
+stat_record find_id(vector<stat_record> records, string id)
+{
+	stat_record find_record{};
+	
+	for (stat_record record : records)
+	{
+		if (record.id == id)
+		{
+			find_record = record;
+			break;
+		}
+	}
+
+	return find_record;
+}
+
+vector<stat_record> find_surname(vector<stat_record> records, string surname)
+{
+	vector<stat_record> find_records{};
+
+	for (stat_record record : records)
+	{
+		if (record.surname == surname)
+		{
+			find_records.push_back(record);
+		}
+	}
+
+	return find_records;
+}
+
+vector<stat_record> find_firstname(vector<stat_record> records, string firstname)
+{
+	vector<stat_record> find_records{};
+
+	for (stat_record record : records)
+	{
+		if (record.first_name == firstname)
+		{
+			find_records.push_back(record);
+		}
+	}
+
+	return find_records;
+}
+
+vector<stat_record> find_patronymic(vector<stat_record> records, string patronymic)
+{
+	vector<stat_record> find_records{};
+
+	for (stat_record record : records)
+	{
+		if (record.patronymic == patronymic)
+		{
+			find_records.push_back(record);
+		}
+	}
+
+	return find_records;
+}
+
+vector<stat_record> find_avg_grade(vector<stat_record> records, double avg_grade)
+{
+	vector<stat_record> find_records{};
+
+	for (stat_record record : records)
+	{
+		double record_avg_grade = get_record_grades_avg(record);
+		if (record_avg_grade == avg_grade)
+		{
+			find_records.push_back(record);
+		}
+	}
+
+	return find_records;
+}
+
+vector<stat_record> find_records(vector<stat_record> records, stat_record_find parameters)
+{
+	string find_parameter = parameters.find_parameter;
+
+	if (find_parameter == "id")
+	{
+		return vector<stat_record>{find_id(records, parameters.find_value)};
+	}
+	if (find_parameter == "surname")
+	{
+		return find_surname(records, parameters.find_value);
+	}
+	if (find_parameter == "firstname")
+	{
+		return find_firstname(records, parameters.find_value);
+	}
+	if (find_parameter == "patronymic")
+	{
+		return find_patronymic(records, parameters.find_value);
+	}
+	if (find_parameter == "avg_grade")
+	{
+		try {
+			return find_avg_grade(records, stod(parameters.find_value));
+		}
+		catch (exception e)
+		{
+			return vector<stat_record>{};
+		}
+	}
+
+	return vector<stat_record>{};
+}
