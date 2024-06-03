@@ -101,8 +101,37 @@ double get_record_grades_avg(stat_record record)
 	return (record.grades[0] + record.grades[1] + record.grades[2] + record.grades[3]) / 4.0;
 }
 
+double get_records_grades_avgmin(vector<stat_record> records)
+{
+	int size = records.size();
+
+	if (size == 0)
+	{
+		return 0;
+	}
+
+	double min = get_record_grades_avg(records[0]);
+	for (int i = 1; i < size; i++)
+	{
+		double current_avg = get_record_grades_avg(records[i]);
+		if (min > current_avg)
+		{
+			min = current_avg;
+		}
+	}
+
+	return min;
+}
+
 double get_records_grades_avg(vector<stat_record> records)
 {
+	int size = records.size();
+
+	if (size == 0)
+	{
+		return 0;
+	}
+
 	double sum = 0;
 	for (stat_record record : records)
 	{
@@ -110,7 +139,29 @@ double get_records_grades_avg(vector<stat_record> records)
 		sum += current_avg;
 	}
 
-	return sum / records.size();
+	return sum / size;
+}
+
+double get_records_grades_avgmax(vector<stat_record> records)
+{
+	int size = records.size();
+
+	if (size == 0)
+	{
+		return 0;
+	}
+
+	double max = get_record_grades_avg(records[0]);
+	for (int i = 1; i < size; i++)
+	{
+		double current_avg = get_record_grades_avg(records[i]);
+		if (max < current_avg)
+		{
+			max = current_avg;
+		}
+	}
+
+	return max;
 }
 
 vector<stat_record> slice_records(vector<stat_record> records, int from, int to)
@@ -237,4 +288,26 @@ vector<stat_record> find_records(vector<stat_record> records, stat_record_find p
 	}
 
 	return vector<stat_record>{};
+}
+
+vector<stat_record> filter_avg_grade(vector<stat_record> records, double avg_grade, bool comparison)
+{
+	vector<stat_record> filter_records{};
+
+	for (stat_record record : records)
+	{
+		double record_avg_grade = get_record_grades_avg(record);
+		if (comparison && record_avg_grade >= avg_grade)
+		{
+			filter_records.push_back(record);
+			continue;
+		}
+		if (!comparison && record_avg_grade <= avg_grade)
+		{
+			filter_records.push_back(record);
+			continue;
+		}
+	}
+
+	return filter_records;
 }

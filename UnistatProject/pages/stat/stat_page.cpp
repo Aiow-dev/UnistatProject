@@ -10,6 +10,7 @@
 #include "../../controllers/stat.h"
 #include "../../controllers/stat_record.h"
 #include "../../app.h"
+#include "filter_stat_page.h"
 using namespace std;
 
 void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
@@ -173,7 +174,6 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 	while (true)
 	{
 		int key_input = _getch();
-		//cout << key_input;
 
 		if (key_input == 72)
 		{
@@ -265,6 +265,54 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 			}
 			records = find_records(records, find_parameters);
 
+			if (records.empty())
+			{
+				message_dialog("Нет найденных записей!");
+				return app_action::stats_page;
+			}
+
+			size = records.size();
+			if (size < page_size)
+			{
+				end_page_index = size - 1;
+			}
+
+			page_count = size / page_size;
+			page_offset = size % page_size;
+
+			if (page_offset != 0)
+			{
+				page_count++;
+			}
+			update_stat_page();
+			update_stat_table(records, snm_width, frt_width, ptc_width);
+		}
+		if (key_input == 102)
+		{
+			stat_record_filter filter_parameters = show_filter_stat_page();
+			if (filter_parameters.filter_parameter != "avg_grade")
+			{
+				update_stat_page();
+				update_stat_table(records, snm_width, frt_width, ptc_width);
+				continue;
+			}
+
+			double filter_value = 0;
+			string value_parameter = filter_parameters.filter_value_parameter;
+			if (value_parameter == "min")
+			{
+				filter_value = get_records_grades_avgmin(records);
+			}
+			else if (value_parameter == "avg")
+			{
+				filter_value = get_records_grades_avg(records);
+			}
+			else
+			{
+				filter_value = get_records_grades_avgmax(records);
+			}
+
+			records = filter_avg_grade(records, filter_value, filter_parameters.filter_comparison);
 			if (records.empty())
 			{
 				message_dialog("Нет найденных записей!");

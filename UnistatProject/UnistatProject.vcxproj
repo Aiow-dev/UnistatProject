@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="controllers\stat_record.cpp" />
+    <ClCompile Include="pages\stat\filter_stat_page.cpp" />
     <ClCompile Include="pages\stat\find_stat_page.cpp" />
     <ClCompile Include="pages\settings_page.cpp" />
     <ClCompile Include="visual\colors.cpp" />
@@ -148,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controllers\stat_record.h" />
+    <ClInclude Include="pages\stat\filter_stat_page.h" />
     <ClInclude Include="pages\stat\find_stat_page.h" />
     <ClInclude Include="pages\settings_page.h" />
     <ClInclude Include="visual\colors.h" />
