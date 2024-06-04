@@ -12,18 +12,25 @@ struct stat_record
 	int grades[4]{};
 };
 
-struct stat_record_find
+struct find_params
 {
-	string find_parameter;
-	string find_value;
+	string parameter;
+	string value;
 };
 
-struct stat_record_filter
+struct filter_params
 {
-	string filter_parameter;
-	string filter_value_parameter;
-	string filter_value;
-	bool filter_comparison;
+	string parameter;
+	string value_parameter;
+	string value;
+	bool comparison;
+};
+
+struct sort_params
+{
+	string function;
+	string parameter;
+	bool order;
 };
 
 string to_frecord(stat_record record, string sep = ";");

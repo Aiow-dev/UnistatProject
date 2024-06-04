@@ -7,10 +7,10 @@
 #include "../../visual/colors.h"
 using namespace std;
 
-filter_params show_filter_stat_page()
+sort_params show_sort_stat_page()
 {
 	clear_console();
-	show_dialog_header(22, 100, 8, "Выберите параметры фильтра");
+	show_dialog_header(22, 100, 8, "Выберите параметры сортировки");
 	show_dialog_content_frame(22, 100, 13, 8);
 
 	string exit_text = "Для выхода нажмите клавишу Enter или Esc после выбора параметра";
@@ -25,23 +25,23 @@ filter_params show_filter_stat_page()
 	button.show_disable();
 	set_console_color(cr::light_gray, cr::black);
 
-	filter_params filter{"id", "min", "", true};
+	sort_params sort{ "bubble", "id", true };
 
-	vector<string> filter_parameters = {"id записи", "Средний балл"};
-	ConsoleList key_list(24, 16, filter_parameters, "Параметр фильтра:");
+	vector<string> sort_functions = { "Сортировка пузырьком", "Быстрая сортировка" };
+	ConsoleList func_list(24, 16, sort_functions, "Метод сортировки:");
 
-	vector<string> filter_comparison = { "Больше", "Меньше" };
-	ConsoleList comparison_list(54, 16, filter_comparison, "Сравнение:");
-	comparison_list.show_disable();
+	vector<string> sort_parameters = { "id записи", "Фамилия", "Имя", "Отчество", "Средний балл" };
+	ConsoleList parameter_list(52, 16, sort_parameters, "Параметр сортировки:");
+	parameter_list.show_disable();
 
-	vector<string> filter_value = { "Самое низкое значение", "Среднее", "Самое высокое значение" };
-	ConsoleList value_list(77, 16, filter_value, "Параметр сравнения:");
-	value_list.show_disable();
+	vector<string> sort_orders = { "По возрастанию", "По убыванию" };
+	ConsoleList order_list(80, 16, sort_orders, "Последовательность:");
+	order_list.show_disable();
 
-	int key_index = key_list.wait_get_item();
+	int key_index = func_list.wait_get_item();
 	if (key_index == 1)
 	{
-		filter.parameter = "avg_grade";
+		sort.function = "quick";
 	}
 
 	while (true)
@@ -52,7 +52,7 @@ filter_params show_filter_stat_page()
 		{
 			set_console_color(cr::light_gray, cr::black);
 			clear_console();
-			return filter_params{};
+			return sort_params{};
 		}
 
 		if (key == 77)
@@ -67,7 +67,7 @@ filter_params show_filter_stat_page()
 			{
 				set_console_color(cr::light_gray, cr::black);
 				clear_console();
-				return filter;
+				return sort;
 			}
 			else
 			{
@@ -77,56 +77,57 @@ filter_params show_filter_stat_page()
 		}
 	}
 
-	key_index = comparison_list.wait_get_item();
-	filter.comparison = key_index == 0;
-
-	while (true)
-	{
-		int key = _getch();
-
-		if (key == 27)
-		{
-			set_console_color(cr::light_gray, cr::black);
-			clear_console();
-			return filter_params{};
-		}
-
-		if (key == 77)
-		{
-			break;
-		}
-
-		if (key == 80)
-		{
-			bool is_confirm = button.wait();
-			if (is_confirm)
-			{
-				set_console_color(cr::light_gray, cr::black);
-				clear_console();
-				return filter;
-			}
-			else
-			{
-				button.show_disable();
-				break;
-			}
-		}
-	}
-
-	key_index = value_list.wait_get_item();
-	string value_parameter = "min";
+	key_index = parameter_list.wait_get_item();
 	switch (key_index)
 	{
-	case 1: value_parameter = "avg";
+	case 1: sort.parameter = "surname";
 		break;
-	case 2: value_parameter = "max";
+	case 2: sort.parameter = "firstname";
+		break;
+	case 3: sort.parameter = "patronymic";
+		break;
+	case 4: sort.parameter = "avg_grade";
 		break;
 	}
 
-	filter.value_parameter = value_parameter;
+	while (true)
+	{
+		int key = _getch();
+
+		if (key == 27)
+		{
+			set_console_color(cr::light_gray, cr::black);
+			clear_console();
+			return sort_params{};
+		}
+
+		if (key == 77)
+		{
+			break;
+		}
+
+		if (key == 80)
+		{
+			bool is_confirm = button.wait();
+			if (is_confirm)
+			{
+				set_console_color(cr::light_gray, cr::black);
+				clear_console();
+				return sort;
+			}
+			else
+			{
+				button.show_disable();
+				break;
+			}
+		}
+	}
+
+	key_index = order_list.wait_get_item();
+	sort.order = key_index == 0;
 
 	set_console_color(cr::light_gray, cr::black);
 	clear_console();
 
-	return filter;
+	return sort;
 }

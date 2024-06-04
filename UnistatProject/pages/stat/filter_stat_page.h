@@ -1,4 +1,4 @@
 #pragma once
 #include "../../models/stat_model.h"
 
-stat_record_filter show_filter_stat_page();
+filter_params show_filter_stat_page();

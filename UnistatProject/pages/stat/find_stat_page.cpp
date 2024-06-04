@@ -8,7 +8,7 @@
 #include "../../visual/colors.h"
 using namespace std;
 
-stat_record_find show_find_stat_page()
+find_params show_find_stat_page()
 {
 	clear_console();
 	show_dialog_header(30, 88, 9, "Выберите параметр поиска");
@@ -68,7 +68,7 @@ stat_record_find show_find_stat_page()
 		{
 			clear_console();
 
-			stat_record_find record_find{ "", "" };
+			find_params record_find{ "", "" };
 			return record_find;
 		}
 
@@ -125,6 +125,6 @@ stat_record_find show_find_stat_page()
 	}
 	}
 
-	stat_record_find record_find{find_parameter, find_value};
+	find_params record_find{find_parameter, find_value};
 	return record_find;
 }

@@ -5,6 +5,7 @@
 #include "../visual/colors.h"
 #include "../visual/dialogs.h"
 #include "../app.h"
+#include "../controllers/stat.h"
 using namespace std;
 
 string show_start_page()

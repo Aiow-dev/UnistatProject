@@ -131,6 +131,7 @@
     <ClCompile Include="pages\stat\filter_stat_page.cpp" />
     <ClCompile Include="pages\stat\find_stat_page.cpp" />
     <ClCompile Include="pages\settings_page.cpp" />
+    <ClCompile Include="pages\stat\sort_stat_page.cpp" />
     <ClCompile Include="visual\colors.cpp" />
     <ClCompile Include="helpers\console.cpp" />
     <ClCompile Include="models\file_model.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="pages\stat\filter_stat_page.h" />
     <ClInclude Include="pages\stat\find_stat_page.h" />
     <ClInclude Include="pages\settings_page.h" />
+    <ClInclude Include="pages\stat\sort_stat_page.h" />
     <ClInclude Include="visual\colors.h" />
     <ClInclude Include="helpers\console.h" />
     <ClInclude Include="models\file_model.h" />

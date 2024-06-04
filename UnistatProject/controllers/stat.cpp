@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <chrono>
 #include "stat.h"
 using namespace std;
 
@@ -256,30 +257,30 @@ vector<stat_record> find_avg_grade(vector<stat_record> records, double avg_grade
 	return find_records;
 }
 
-vector<stat_record> find_records(vector<stat_record> records, stat_record_find parameters)
+vector<stat_record> find_records(vector<stat_record> records, find_params parameters)
 {
-	string find_parameter = parameters.find_parameter;
+	string find_parameter = parameters.parameter;
 
 	if (find_parameter == "id")
 	{
-		return vector<stat_record>{find_id(records, parameters.find_value)};
+		return vector<stat_record>{find_id(records, parameters.value)};
 	}
 	if (find_parameter == "surname")
 	{
-		return find_surname(records, parameters.find_value);
+		return find_surname(records, parameters.value);
 	}
 	if (find_parameter == "firstname")
 	{
-		return find_firstname(records, parameters.find_value);
+		return find_firstname(records, parameters.value);
 	}
 	if (find_parameter == "patronymic")
 	{
-		return find_patronymic(records, parameters.find_value);
+		return find_patronymic(records, parameters.value);
 	}
 	if (find_parameter == "avg_grade")
 	{
 		try {
-			return find_avg_grade(records, stod(parameters.find_value));
+			return find_avg_grade(records, stod(parameters.value));
 		}
 		catch (exception e)
 		{
@@ -310,4 +311,236 @@ vector<stat_record> filter_avg_grade(vector<stat_record> records, double avg_gra
 	}
 
 	return filter_records;
+}
+
+bool order_id(stat_record record_1, stat_record record_2)
+{
+	string id_1 = record_1.id;
+	string id_2 = record_2.id;
+	int len_id_1 = id_1.length();
+	int len_id_2 = id_2.length();
+
+	if (len_id_1 < len_id_2)
+	{
+		return false;
+	}
+
+	if (len_id_1 > len_id_2)
+	{
+		return true;
+	}
+
+	for (int i = 0; i < len_id_1; i++)
+	{
+		if (id_1[i] < id_2[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool order_surname(stat_record record_1, stat_record record_2)
+{
+	return record_1.surname[0] > record_2.surname[0];
+}
+
+bool order_firstname(stat_record record_1, stat_record record_2)
+{
+	return record_1.first_name[0] > record_2.first_name[0];
+}
+
+bool order_patronymic(stat_record record_1, stat_record record_2)
+{
+	return record_1.patronymic[0] > record_2.patronymic[0];
+}
+
+bool order_avg_grade(stat_record record_1, stat_record record_2)
+{
+	double avg_grade_1 = get_record_grades_avg(record_1);
+	double avg_grade_2 = get_record_grades_avg(record_2);
+	return avg_grade_1 > avg_grade_2;
+}
+
+vector<stat_record> sort_bubble(vector<stat_record> records, function<bool(stat_record, stat_record)> order_function, bool is_asc)
+{
+	int size = records.size();
+	bool is_swap = false;
+
+	for (int i = 0; i < size - 1; i++)
+	{
+		is_swap = false;
+		for (int j = 0; j < size - i - 1; j++)
+		{
+			bool order = order_function(records[j], records[j + 1]);
+			if (order && is_asc)
+			{
+				stat_record temp = records[j];
+				records[j] = records[j + 1];
+				records[j + 1] = temp;
+				is_swap = true;
+				continue;
+			}
+			if (!order && !is_asc)
+			{
+				stat_record temp = records[j];
+				records[j] = records[j + 1];
+				records[j + 1] = temp;
+				is_swap = true;
+				continue;
+			}
+		}
+
+		if (!is_swap)
+		{
+			break;
+		}
+	}
+
+	return records;
+}
+
+void quick_partitions_asc(vector<stat_record> &records, int left, int right, function<bool(stat_record, stat_record)> order_function)
+{
+	stat_record pivot;
+	int pivot_index;
+	int l_hold = left;
+	int r_hold = right;
+	pivot = records[left];
+
+	while (left < right)
+	{
+		while (order_function(records[right], pivot) && (left < right))
+		{
+			right--;
+		}
+		if (left != right)
+		{
+			records[left] = records[right];
+			left++;
+		}
+
+		while (!order_function(records[left], pivot) && (left < right))
+		{
+			left++;
+		}
+		if (left != right)
+		{
+			records[right] = records[left];
+			right--;
+		}
+	}
+
+	records[left] = pivot;
+	pivot_index = left;
+	left = l_hold;
+	right = r_hold;
+	if (left < pivot_index)
+	{
+		quick_partitions_asc(records, left, pivot_index - 1, order_function);
+	}
+	if (right > pivot_index)
+	{
+		quick_partitions_asc(records, pivot_index + 1, right, order_function);
+	}
+}
+
+void quick_partitions_desc(vector<stat_record>& records, int left, int right, function<bool(stat_record, stat_record)> order_function)
+{
+	stat_record pivot;
+	int pivot_index;
+	int l_hold = left;
+	int r_hold = right;
+	pivot = records[left];
+
+	while (left < right)
+	{
+		while (!order_function(records[right], pivot) && (left < right))
+		{
+			right--;
+		}
+		if (left != right)
+		{
+			records[left] = records[right];
+			left++;
+		}
+
+		while (order_function(records[left], pivot) && (left < right))
+		{
+			left++;
+		}
+		if (left != right)
+		{
+			records[right] = records[left];
+			right--;
+		}
+	}
+
+	records[left] = pivot;
+	pivot_index = left;
+	left = l_hold;
+	right = r_hold;
+	if (left < pivot_index)
+	{
+		quick_partitions_desc(records, left, pivot_index - 1, order_function);
+	}
+	if (right > pivot_index)
+	{
+		quick_partitions_desc(records, pivot_index + 1, right, order_function);
+	}
+}
+
+vector<stat_record> sort_quick(vector<stat_record> records, function<bool(stat_record, stat_record)> order_function, bool is_asc)
+{
+	int size = records.size();
+
+	if (is_asc)
+	{
+		quick_partitions_asc(records, 0, size - 1, order_function);
+	}
+	else
+	{
+		quick_partitions_desc(records, 0, size - 1, order_function);
+	}
+
+	return records;
+}
+
+sort_result sort_records(vector<stat_record> records, sort_params parameters)
+{
+	function<bool(stat_record, stat_record)> order_function = order_id;
+	string sort_parameter = parameters.parameter;
+	if (sort_parameter == "surname")
+	{
+		order_function = order_surname;
+	}
+	else if (sort_parameter == "firstname")
+	{
+		order_function = order_firstname;
+	}
+	else if (sort_parameter == "patronymic")
+	{
+		order_function = order_patronymic;
+	}
+	else if (sort_parameter == "avg_grade")
+	{
+		order_function = order_avg_grade;
+	}
+
+	function<vector<stat_record>(vector<stat_record>, function<bool(stat_record, stat_record)>, bool)> sort_function = sort_bubble;
+	string function = parameters.function;
+	if (function == "quick")
+	{
+		sort_function = sort_quick;
+	}
+
+	auto t1 = std::chrono::high_resolution_clock::now();
+	
+	records = sort_function(records, order_function, parameters.order);
+
+	auto t2 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> ms_double = t2 - t1;
+
+	return sort_result{ ms_double.count(), records};
 }

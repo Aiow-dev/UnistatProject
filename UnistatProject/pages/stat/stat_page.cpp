@@ -11,6 +11,7 @@
 #include "../../controllers/stat_record.h"
 #include "../../app.h"
 #include "filter_stat_page.h"
+#include "sort_stat_page.h"
 using namespace std;
 
 void show_table_title(int x, int y, int snm_width, int frt_width, int ptc_width)
@@ -256,8 +257,8 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 
 		if (key_input == 114)
 		{
-			stat_record_find find_parameters = show_find_stat_page();
-			if (find_parameters.find_parameter.empty() || find_parameters.find_value.empty())
+			find_params find_parameters = show_find_stat_page();
+			if (find_parameters.parameter.empty() || find_parameters.value.empty())
 			{
 				update_stat_page();
 				update_stat_table(records, snm_width, frt_width, ptc_width);
@@ -289,8 +290,8 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 		}
 		if (key_input == 102)
 		{
-			stat_record_filter filter_parameters = show_filter_stat_page();
-			if (filter_parameters.filter_parameter != "avg_grade")
+			filter_params filter_parameters = show_filter_stat_page();
+			if (filter_parameters.parameter != "avg_grade")
 			{
 				update_stat_page();
 				update_stat_table(records, snm_width, frt_width, ptc_width);
@@ -298,7 +299,7 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 			}
 
 			double filter_value = 0;
-			string value_parameter = filter_parameters.filter_value_parameter;
+			string value_parameter = filter_parameters.value_parameter;
 			if (value_parameter == "min")
 			{
 				filter_value = get_records_grades_avgmin(records);
@@ -312,7 +313,7 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 				filter_value = get_records_grades_avgmax(records);
 			}
 
-			records = filter_avg_grade(records, filter_value, filter_parameters.filter_comparison);
+			records = filter_avg_grade(records, filter_value, filter_parameters.comparison);
 			if (records.empty())
 			{
 				message_dialog("Нет найденных записей!");
@@ -332,6 +333,32 @@ string run_table_actions(vector<stat_record> records, int x, int y, int snm_widt
 			{
 				page_count++;
 			}
+			update_stat_page();
+			update_stat_table(records, snm_width, frt_width, ptc_width);
+		}
+
+		if (key_input == 115)
+		{
+			sort_params parameters = show_sort_stat_page();
+			if (parameters.function.empty())
+			{
+				update_stat_page();
+				update_stat_table(records, snm_width, frt_width, ptc_width);
+				continue;
+			}
+
+			sort_result result = sort_records(records, parameters);
+			double time = result.time;
+			records = result.records;
+
+			string time_text = "Выполнено за " + to_string(time) + " мс";
+			int time_text_center_x = text_to_dialog_center(12, 108, time_text.length());
+
+			set_position(time_text_center_x, 23);
+			set_console_color(cr::fg_active_text, cr::black);
+			cout << time_text;
+			set_console_color(cr::light_gray, cr::black);
+			
 			update_stat_page();
 			update_stat_table(records, snm_width, frt_width, ptc_width);
 		}
